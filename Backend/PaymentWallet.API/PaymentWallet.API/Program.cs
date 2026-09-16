@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var dataPath = Path.Combine(
     Directory.GetCurrentDirectory(),
-    "..", "..", "Data", "PaymentWallet.xlsx");
+    "..", "..", "..", "Data", "PaymentWallet.xlsx");
 
 Console.WriteLine($"Data path: {dataPath}");
 Console.WriteLine($"File exists: {File.Exists(dataPath)}");

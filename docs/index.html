@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayWallet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            color: #0f3460;
+            font-weight: 800;
+        }
+
+        .logo p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            color: #0f3460;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0f3460;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        .error {
+            color: #e94560;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>💳 PayWallet</h1>
+            <p>Your Digital Payment Solution</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')">
+                Login
+            </div>
+            <div class="tab" onclick="switchTab('register')">
+                Register
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-section active" id="loginSection">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" 
+                    placeholder="john@gmail.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" 
+                    placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="login()">
+                Login
+            </button>
+            <div id="loginMessage"></div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-section" id="registerSection">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" 
+                    placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" 
+                    placeholder="john@gmail.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="regPhone" 
+                    placeholder="9999999999">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" 
+                    placeholder="Min 8 characters">
+            </div>
+            <button class="btn" onclick="register()">
+                Create Account
+            </button>
+            <div id="registerMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5235';
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab')
+                .forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section')
+                .forEach(s => s.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0]
+                    .classList.add('active');
+                document.getElementById('loginSection')
+                    .classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1]
+                    .classList.add('active');
+                document.getElementById('registerSection')
+                    .classList.add('active');
+            }
+        }
+
+        async function login() {
+            var email = document
+                .getElementById('loginEmail').value;
+            var password = document
+                .getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                document.getElementById('loginMessage')
+                    .innerHTML = 
+                    '<p class="error">Please fill all fields</p>';
+                return;
+            }
+
+            try {
+                var response = await fetch(
+                    API + '/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: email,
+                        password: password
+                    })
+                });
+
+                var data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('fullName', data.fullName);
+                    localStorage.setItem('userID', data.userID);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    document.getElementById('loginMessage')
+                        .innerHTML = 
+                        '<p class="error">' + 
+                        (data.message || 'Login failed') + 
+                        '</p>';
+                }
+            } catch(e) {
+                document.getElementById('loginMessage')
+                    .innerHTML = 
+                    '<p class="error">Connection error</p>';
+            }
+        }
+
+        async function register() {
+            var name = document
+                .getElementById('regName').value;
+            var email = document
+                .getElementById('regEmail').value;
+            var phone = document
+                .getElementById('regPhone').value;
+            var password = document
+                .getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                document.getElementById('registerMessage')
+                    .innerHTML = 
+                    '<p class="error">Please fill all fields</p>';
+                return;
+            }
+
+            try {
+                var response = await fetch(
+                    API + '/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: email,
+                        password: password,
+                        fullName: name,
+                        phone: phone
+                    })
+                });
+
+                var data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('registerMessage')
+                        .innerHTML = 
+                        '<p class="success">Registration successful! Please login.</p>';
+                    setTimeout(function() {
+                        switchTab('login');
+                    }, 2000);
+                } else {
+                    document.getElementById('registerMessage')
+                        .innerHTML = 
+                        '<p class="error">' + 
+                        (data.message || 'Registration failed') + 
+                        '</p>';
+                }
+            } catch(e) {
+                document.getElementById('registerMessage')
+                    .innerHTML = 
+                    '<p class="error">Connection error</p>';
+            }
+        }
+
+        // Check if already logged in
+        if (localStorage.getItem('token')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
