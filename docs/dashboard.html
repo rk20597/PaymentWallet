@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayWallet - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            color: white;
+            padding: 0 30px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-logo {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .user-info .role {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* TABS */
+        .tab-container {
+            background: white;
+            padding: 0 30px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover { color: #0f3460; }
+
+        .tab-btn.active {
+            color: #0f3460;
+            border-bottom-color: #0f3460;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            color: #0f3460;
+        }
+
+        /* WALLET CARDS */
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .wallet-card .currency {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .wallet-card .balance {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .wallet-card .wallet-id {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f3460;
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* FORMS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0f3460;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .btn-primary:hover { opacity: 0.9; }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        td {
+            padding: 12px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        tr:hover td { background: #f8f9fa; }
+
+        /* BADGES */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #d4edda;
+            color: #27ae60;
+        }
+
+        .badge-inactive {
+            background: #f8d7da;
+            color: #e94560;
+        }
+
+        .badge-credit {
+            background: #d4edda;
+            color: #27ae60;
+        }
+
+        .badge-debit {
+            background: #f8d7da;
+            color: #e94560;
+        }
+
+        /* ALERT */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #27ae60;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #e94560;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+            font-size: 14px;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 450px;
+            max-width: 90%;
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            color: #0f3460;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #555;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* ADMIN ONLY */
+        .admin-only { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-logo">💳 PayWallet</div>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="name" id="userFullName">
+                    Welcome
+                </div>
+                <div class="role" id="userRole"></div>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tab-container">
+        <button class="tab-btn active"
+            onclick="showTab('overview', event)">
+            Overview
+        </button>
+        <button class="tab-btn"
+            onclick="showTab('accounts', event)">
+            Accounts
+        </button>
+        <button class="tab-btn"
+            onclick="showTab('wallets', event)">
+            Wallets
+        </button>
+        <button class="tab-btn admin-only"
+            onclick="showTab('admin', event)">
+            Admin Panel
+        </button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- OVERVIEW TAB -->
+        <div class="tab-content active" id="tab-overview">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon">🏦</div>
+                    <div class="stat-value" id="totalAccounts">0</div>
+                    <div class="stat-label">Total Accounts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👛</div>
+                    <div class="stat-value" id="totalWallets">0</div>
+                    <div class="stat-label">Total Wallets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="totalBalance">₹0</div>
+                    <div class="stat-label">Total Balance</div>
+                </div>
+            </div>
+
+            <!-- Wallet Cards -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Wallets</h3>
+                    <button class="btn-primary"
+                        onclick="showTab('wallets', event)">
+                        + Add Wallet
+                    </button>
+                </div>
+                <div class="wallet-grid" id="overviewWallets">
+                    <p class="loading">Loading wallets...</p>
+                </div>
+            </div>
+
+            <!-- Recent Accounts -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Accounts</h3>
+                    <button class="btn-primary"
+                        onclick="showTab('accounts', event)">
+                        + Add Account
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Account Name</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overviewAccounts">
+                            <tr>
+                                <td colspan="4" class="loading">
+                                    Loading accounts...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCOUNTS TAB -->
+        <div class="tab-content" id="tab-accounts">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Create New Account</h3>
+                </div>
+                <div id="accountMessage"></div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Account Name</label>
+                        <input type="text" id="accountName"
+                            placeholder="e.g. My Savings Account">
+                    </div>
+                </div>
+                <button class="btn-primary"
+                    onclick="createAccount()">
+                    Create Account
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Accounts</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Account Name</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountsTable">
+                            <tr>
+                                <td colspan="4" class="loading">
+                                    Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- WALLETS TAB -->
+        <div class="tab-content" id="tab-wallets">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Create New Wallet</h3>
+                </div>
+                <div id="walletMessage"></div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Select Account</label>
+                        <select id="walletAccountId">
+                            <option value="">
+                                Select Account
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select id="walletCurrency">
+                            <option value="INR">
+                                INR - Indian Rupee
+                            </option>
+                            <option value="USD">
+                                USD - US Dollar
+                            </option>
+                            <option value="EUR">
+                                EUR - Euro
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Wallet Name</label>
+                        <input type="text" id="walletName"
+                            placeholder="e.g. My Main Wallet">
+                    </div>
+                </div>
+                <button class="btn-primary"
+                    onclick="createWallet()">
+                    Create Wallet
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Wallets</h3>
+                </div>
+                <div class="wallet-grid" id="walletsGrid">
+                    <p class="loading">Loading wallets...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN TAB -->
+        <div class="tab-content admin-only" id="tab-admin">
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Users</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTable">
+                            <tr>
+                                <td colspan="6" class="loading">
+                                    Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Accounts</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>User ID</th>
+                                <th>Account Name</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminAccountsTable">
+                            <tr>
+                                <td colspan="5" class="loading">
+                                    Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Wallets</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Wallet ID</th>
+                                <th>User ID</th>
+                                <th>Account ID</th>
+                                <th>Balance</th>
+                                <th>Currency</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminWalletsTable">
+                            <tr>
+                                <td colspan="6" class="loading">
+                                    Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const API = 'http://localhost:5235';
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        const username = localStorage.getItem('username');
+        const fullName = localStorage.getItem('fullName');
+
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+
+        // Setup UI
+        document.getElementById('userFullName')
+            .textContent = fullName || username;
+        document.getElementById('userRole')
+            .textContent = role;
+
+        if (role === 'Admin') {
+            document.querySelectorAll('.admin-only')
+                .forEach(el => {
+                    el.style.display = 'block';
+                });
+        }
+
+        // ==================
+        // TAB NAVIGATION
+        // ==================
+
+        function showTab(tabName, event) {
+            document.querySelectorAll('.tab-content')
+                .forEach(t => {
+                    t.classList.remove('active');
+                    t.style.display = 'none';
+                });
+            document.querySelectorAll('.tab-btn')
+                .forEach(b => b.classList.remove('active'));
+
+            var tab = document
+                .getElementById('tab-' + tabName);
+            if (tab) {
+                tab.classList.add('active');
+                tab.style.display = 'block';
+            }
+
+            if (event && event.target)
+                event.target.classList.add('active');
+
+            if (tabName === 'overview') loadOverview();
+            else if (tabName === 'accounts') loadAccounts();
+            else if (tabName === 'wallets') loadWallets();
+            else if (tabName === 'admin') loadAdmin();
+        }
+
+        // ==================
+        // API HELPERS
+        // ==================
+
+        function apiGet(url) {
+            return fetch(API + url, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(r => r.json());
+        }
+
+        function apiPost(url, data) {
+            return fetch(API + url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(r => r.json());
+        }
+
+        function safe(val) {
+            return val || '';
+        }
+
+        // ==================
+        // OVERVIEW
+        // ==================
+
+        function loadOverview() {
+            apiGet('/api/accounts')
+            .then(function(accounts) {
+                document.getElementById('totalAccounts')
+                    .textContent = accounts.length || 0;
+
+                var tbody = document
+                    .getElementById('overviewAccounts');
+                tbody.innerHTML = '';
+                if (!accounts.length) {
+                    tbody.innerHTML = 
+                        '<tr><td colspan="4" class="loading">' +
+                        'No accounts yet</td></tr>';
+                } else {
+                    accounts.forEach(function(a) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td>' + safe(a.accountID) + '</td>' +
+                            '<td>' + safe(a.accountName) + '</td>' +
+                            '<td>' + safe(a.createdDate) + '</td>' +
+                            '<td><span class="badge badge-active">' +
+                            safe(a.status) + '</span></td>' +
+                            '</tr>';
+                    });
+                }
+            });
+
+            apiGet('/api/wallet')
+            .then(function(wallets) {
+                document.getElementById('totalWallets')
+                    .textContent = wallets.length || 0;
+
+                var total = wallets.reduce(function(sum, w) {
+                    return sum + (w.balance || 0);
+                }, 0);
+                document.getElementById('totalBalance')
+                    .textContent = '₹' + total.toFixed(2);
+
+                var container = document
+                    .getElementById('overviewWallets');
+                container.innerHTML = '';
+
+                if (!wallets.length) {
+                    container.innerHTML = 
+                        '<p class="loading">No wallets yet. Create one!</p>';
+                } else {
+                    wallets.forEach(function(w) {
+                        container.innerHTML += 
+                            '<div class="wallet-card">' +
+                            '<div class="currency">' + 
+                            safe(w.currency) + ' Wallet</div>' +
+                            '<div class="balance">₹' + 
+                            (w.balance || 0).toFixed(2) + '</div>' +
+                            '<div class="wallet-id">Wallet #' + 
+                            safe(w.walletID) + '</div>' +
+                            '</div>';
+                    });
+                }
+            });
+        }
+
+        // ==================
+        // ACCOUNTS
+        // ==================
+
+        function loadAccounts() {
+            apiGet('/api/accounts')
+            .then(function(accounts) {
+                var tbody = document
+                    .getElementById('accountsTable');
+                tbody.innerHTML = '';
+
+                if (!accounts.length) {
+                    tbody.innerHTML = 
+                        '<tr><td colspan="4" class="loading">' +
+                        'No accounts yet</td></tr>';
+                    return;
+                }
+
+                accounts.forEach(function(a) {
+                    tbody.innerHTML += '<tr>' +
+                        '<td>' + safe(a.accountID) + '</td>' +
+                        '<td>' + safe(a.accountName) + '</td>' +
+                        '<td>' + safe(a.createdDate) + '</td>' +
+                        '<td><span class="badge badge-active">' +
+                        safe(a.status) + '</span></td>' +
+                        '</tr>';
+                });
+
+                // Populate wallet account dropdown
+                var sel = document
+                    .getElementById('walletAccountId');
+                sel.innerHTML = 
+                    '<option value="">Select Account</option>';
+                accounts.forEach(function(a) {
+                    sel.innerHTML += 
+                        '<option value="' + a.accountID + '">' +
+                        a.accountName + '</option>';
+                });
+            });
+        }
+
+        function createAccount() {
+            var name = document
+                .getElementById('accountName').value;
+            if (!name) {
+                showMessage('accountMessage', 
+                    'Please enter account name', false);
+                return;
+            }
+
+            apiPost('/api/accounts', {
+                accountName: name
+            })
+            .then(function(data) {
+                showMessage('accountMessage', 
+                    'Account created successfully!', true);
+                document.getElementById('accountName')
+                    .value = '';
+                loadAccounts();
+            })
+            .catch(function() {
+                showMessage('accountMessage', 
+                    'Error creating account', false);
+            });
+        }
+
+        // ==================
+        // WALLETS
+        // ==================
+
+        function loadWallets() {
+            loadAccounts();
+            apiGet('/api/wallet')
+            .then(function(wallets) {
+                var container = document
+                    .getElementById('walletsGrid');
+                container.innerHTML = '';
+
+                if (!wallets.length) {
+                    container.innerHTML = 
+                        '<p class="loading">No wallets yet</p>';
+                    return;
+                }
+
+                wallets.forEach(function(w) {
+                    container.innerHTML += 
+                        '<div class="wallet-card">' +
+                        '<div class="currency">' + 
+                        safe(w.currency) + ' Wallet</div>' +
+                        '<div class="balance">₹' + 
+                        (w.balance || 0).toFixed(2) + '</div>' +
+                        '<div class="wallet-id">Wallet #' + 
+                        safe(w.walletID) + ' | Account #' +
+                        safe(w.accountID) + '</div>' +
+                        '</div>';
+                });
+            });
+        }
+
+        function createWallet() {
+            var accountId = document
+                .getElementById('walletAccountId').value;
+            var currency = document
+                .getElementById('walletCurrency').value;
+
+            if (!accountId) {
+                showMessage('walletMessage', 
+                    'Please select an account', false);
+                return;
+            }
+
+            apiPost('/api/wallet', {
+                accountID: parseInt(accountId),
+                currency: currency
+            })
+            .then(function(data) {
+                showMessage('walletMessage', 
+                    'Wallet created successfully!', true);
+                loadWallets();
+            })
+            .catch(function() {
+                showMessage('walletMessage', 
+                    'Error creating wallet', false);
+            });
+        }
+
+        // ==================
+        // ADMIN
+        // ==================
+
+        function loadAdmin() {
+            apiGet('/api/accounts/all')
+            .then(function(accounts) {
+                var tbody = document
+                    .getElementById('adminAccountsTable');
+                tbody.innerHTML = '';
+                accounts.forEach(function(a) {
+                    tbody.innerHTML += '<tr>' +
+                        '<td>' + safe(a.accountID) + '</td>' +
+                        '<td>' + safe(a.userID) + '</td>' +
+                        '<td>' + safe(a.accountName) + '</td>' +
+                        '<td>' + safe(a.createdDate) + '</td>' +
+                        '<td><span class="badge badge-active">' +
+                        safe(a.status) + '</span></td>' +
+                        '</tr>';
+                });
+            });
+
+            apiGet('/api/wallet/all')
+            .then(function(wallets) {
+                var tbody = document
+                    .getElementById('adminWalletsTable');
+                tbody.innerHTML = '';
+                wallets.forEach(function(w) {
+                    tbody.innerHTML += '<tr>' +
+                        '<td>' + safe(w.walletID) + '</td>' +
+                        '<td>' + safe(w.userID) + '</td>' +
+                        '<td>' + safe(w.accountID) + '</td>' +
+                        '<td>₹' + (w.balance || 0).toFixed(2) + 
+                        '</td>' +
+                        '<td>' + safe(w.currency) + '</td>' +
+                        '<td><span class="badge badge-active">' +
+                        safe(w.status) + '</span></td>' +
+                        '</tr>';
+                });
+            });
+        }
+
+        // ==================
+        // HELPERS
+        // ==================
+
+        function showMessage(elementId, message, success) {
+            var el = document.getElementById(elementId);
+            if (el) {
+                el.innerHTML = '<div class="alert ' +
+                    (success ? 'alert-success' : 'alert-error') +
+                    '">' + message + '</div>';
+                setTimeout(function() {
+                    el.innerHTML = '';
+                }, 3000);
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // Initial load
+        loadOverview();
+    </script>
+</body>
+</html>
+
+On Wed, 16 Sept, 2026, 18:36 Rohan Kulkarni, <rohanrocks.10.rk@gmail.com> wrote:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayWallet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            color: #0f3460;
+            font-weight: 800;
+        }
+
+        .logo p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            color: #0f3460;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0f3460;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0f3460, #e94560);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        .error {
+            color: #e94560;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>💳 PayWallet</h1>
+            <p>Your Digital Payment Solution</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')">
+                Login
+            </div>
+            <div class="tab" onclick="switchTab('register')">
+                Register
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-section active" id="loginSection">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" 
+                    placeholder="john@gmail.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" 
+                    placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="login()">
+                Login
+            </button>
+            <div id="loginMessage"></div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-section" id="registerSection">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" 
+                    placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" 
+                    placeholder="john@gmail.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="regPhone" 
+                    placeholder="9999999999">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" 
+                    placeholder="Min 8 characters">
+            </div>
+            <button class="btn" onclick="register()">
+                Create Account
+            </button>
+            <div id="registerMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5235';
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab')
+                .forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section')
+                .forEach(s => s.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0]
+                    .classList.add('active');
+                document.getElementById('loginSection')
+                    .classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1]
+                    .classList.add('active');
+                document.getElementById('registerSection')
+                    .classList.add('active');
+            }
+        }
+
+        async function login() {
+            var email = document
+                .getElementById('loginEmail').value;
+            var password = document
+                .getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                document.getElementById('loginMessage')
+                    .innerHTML = 
+                    '<p class="error">Please fill all fields</p>';
+                return;
+            }
+
+            try {
+                var response = await fetch(
+                    API + '/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: email,
+                        password: password
+                    })
+                });
+
+                var data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('fullName', data.fullName);
+                    localStorage.setItem('userID', data.userID);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    document.getElementById('loginMessage')
+                        .innerHTML = 
+                        '<p class="error">' + 
+                        (data.message || 'Login failed') + 
+                        '</p>';
+                }
+            } catch(e) {
+                document.getElementById('loginMessage')
+                    .innerHTML = 
+                    '<p class="error">Connection error</p>';
+            }
+        }
+
+        async function register() {
+            var name = document
+                .getElementById('regName').value;
+            var email = document
+                .getElementById('regEmail').value;
+            var phone = document
+                .getElementById('regPhone').value;
+            var password = document
+                .getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                document.getElementById('registerMessage')
+                    .innerHTML = 
+                    '<p class="error">Please fill all fields</p>';
+                return;
+            }
+
+            try {
+                var response = await fetch(
+                    API + '/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: email,
+                        password: password,
+                        fullName: name,
+                        phone: phone
+                    })
+                });
+
+                var data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('registerMessage')
+                        .innerHTML = 
+                        '<p class="success">Registration successful! Please login.</p>';
+                    setTimeout(function() {
+                        switchTab('login');
+                    }, 2000);
+                } else {
+                    document.getElementById('registerMessage')
+                        .innerHTML = 
+                        '<p class="error">' + 
+                        (data.message || 'Registration failed') + 
+                        '</p>';
+                }
+            } catch(e) {
+                document.getElementById('registerMessage')
+                    .innerHTML = 
+                    '<p class="error">Connection error</p>';
+            }
+        }
+
+        // Check if already logged in
+        if (localStorage.getItem('token')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

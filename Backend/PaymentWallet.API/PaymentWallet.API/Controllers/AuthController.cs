@@ -46,7 +46,7 @@ namespace PaymentWallet.API.Controllers
             {
                 UserName = request.UserName,
                 PasswordHash = request.Password,
-                Role = "User",
+                Role = request.Role ?? "User",
                 IsActive = true,
                 FullName = request.FullName,
                 Phone = request.Phone,
@@ -141,6 +141,8 @@ namespace PaymentWallet.API.Controllers
         public string? Password { get; set; }
         public string? FullName { get; set; }
         public string? Phone { get; set; }
+
+        public string? Role { get; set; }
     }
 }
 
