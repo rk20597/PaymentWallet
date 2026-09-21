@@ -45,7 +45,7 @@ namespace PaymentWallet.API.Controllers
             var user = new Users
             {
                 UserName = request.UserName,
-                PasswordHash = request.Password,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Role = request.Role ?? "User",
                 IsActive = true,
                 FullName = request.FullName,
@@ -77,7 +77,7 @@ namespace PaymentWallet.API.Controllers
                 .GetUserByUsername(request.UserName);
 
             if (user == null ||
-                user.PasswordHash != request.Password)
+                !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 return Unauthorized(new
                 {
                     message = "Invalid credentials"

@@ -137,6 +137,78 @@ namespace PaymentWallet.API.Controllers
                 .GetTransactionsByWallet(walletId);
             return Ok(transactions);
         }
+
+        [HttpPost("{walletId}/addmoney")]
+        public async Task<IActionResult> AddMoney(
+    int walletId,
+    [FromBody] AddMoneyRequest request)
+        {
+            if (request.Amount <= 0)
+                return BadRequest(new
+                {
+                    message = "Amount must be greater than 0"
+                });
+
+            var username = User.FindFirst(
+                ClaimTypes.Name)?.Value;
+            var users = await _repo.GetAllUsers();
+            var user = users.FirstOrDefault(u =>
+                u.UserName == username);
+            if (user == null) return Unauthorized();
+
+            var wallets = await _repo
+                .GetWalletsByUser(user.UserID);
+            var wallet = wallets.FirstOrDefault(w =>
+                w.WalletID == walletId);
+            if (wallet == null)
+                return NotFound(new
+                {
+                    message = "Wallet not found"
+                });
+
+            // Verify funding method belongs to user
+            var methods = await _repo
+                .GetFundingMethodsByUser(user.UserID);
+            var method = methods.FirstOrDefault(m =>
+                m.FundingMethodID == request.FundingMethodID);
+            if (method == null)
+                return BadRequest(new
+                {
+                    message = "Invalid funding method"
+                });
+
+            // Update wallet balance
+            decimal newBalance = wallet.Balance + request.Amount;
+            await _repo.UpdateWalletBalance(walletId, newBalance);
+
+            // Add transaction record
+            var transaction = new Transaction
+            {
+                WalletID = walletId,
+                Type = "Credit",
+                Amount = request.Amount,
+                Description = "Added money from " + method.Type +
+                    " - " + method.MaskedDetails,
+                Date = DateTime.Now.ToString("dd-MM-yyyy HH:mm"),
+                Status = "Completed",
+                FundingMethodID = request.FundingMethodID
+            };
+            await _repo.AddTransaction(transaction);
+
+            return Ok(new
+            {
+                message = "Money added successfully",
+                newBalance = newBalance,
+                transactionAmount = request.Amount
+            });
+        }
+
+    }
+
+    public class AddMoneyRequest
+    {
+        public decimal Amount { get; set; }
+        public int FundingMethodID { get; set; }
     }
 }
 
