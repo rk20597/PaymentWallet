@@ -270,7 +270,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Wallets")
+                    if (ws.Name.Trim() == "Wallet")
                     {
                         sheet = ws;
                         break;
@@ -328,7 +328,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Wallets")
+                    if (ws.Name.Trim() == "Wallet")
                     {
                         sheet = ws;
                         break;
@@ -380,7 +380,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Wallets")
+                    if (ws.Name.Trim() == "Wallet")
                     {
                         sheet = ws;
                         break;
@@ -428,7 +428,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Transactions")
+                    if (ws.Name.Trim() == "Transaction")
                     {
                         sheet = ws;
                         break;
@@ -461,7 +461,9 @@ namespace PaymentWallet.API.Repositories
                         Status = sheet.Cells[row, 7]
                             .Value?.ToString(),
                         FundingMethodID = Convert.ToInt32(
-                            sheet.Cells[row, 8].Value ?? 0)
+                            sheet.Cells[row, 8].Value ?? 0),
+                        BalanceBefore = Convert.ToDecimal(sheet.Cells[row, 9].Value ?? 0),
+                        BalanceAfter = Convert.ToDecimal(sheet.Cells[row, 10].Value ?? 0)
                     });
                 }
                 return transactions;
@@ -483,7 +485,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Transactions")
+                    if (ws.Name.Trim() == "Transaction")
                     {
                         sheet = ws;
                         break;
@@ -516,6 +518,8 @@ namespace PaymentWallet.API.Repositories
                 sheet.Cells[newRow, 7].Value = transaction.Status;
                 sheet.Cells[newRow, 8].Value =
                     transaction.FundingMethodID;
+                sheet.Cells[newRow, 9].Value = transaction.BalanceBefore;
+                sheet.Cells[newRow, 10].Value = transaction.BalanceAfter;
 
                 await package.SaveAsync();
             }
@@ -642,7 +646,7 @@ namespace PaymentWallet.API.Repositories
                 ExcelWorksheet? sheet = null;
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    if (ws.Name.Trim() == "Transactions")
+                    if (ws.Name.Trim() == "Transaction")
                     {
                         sheet = ws;
                         break;

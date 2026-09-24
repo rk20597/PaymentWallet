@@ -10,5 +10,8 @@ namespace PaymentWallet.API.Models
         public string? Date { get; set; }
         public string? Status { get; set; }
         public int FundingMethodID { get; set; }
+        public decimal BalanceBefore { get; set; }
+        public decimal BalanceAfter { get; set; }
+
     }
 }

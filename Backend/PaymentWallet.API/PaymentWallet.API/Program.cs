@@ -1,8 +1,11 @@
-using PaymentWallet.API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.OpenApi;
 using OfficeOpenXml;
+using PaymentWallet.API.Repositories;
+using System.Text;
+using System.Threading.RateLimiting;
 
 ExcelPackage.License.SetNonCommercialPersonal(
     "PaymentWallet");
@@ -52,11 +55,43 @@ builder.Services.AddAuthentication(
             };
     });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", limiter =>
+    {
+        limiter.PermitLimit = 100;
+        limiter.Window = TimeSpan.FromMinutes(1);
+        limiter.QueueProcessingOrder =
+            QueueProcessingOrder.OldestFirst;
+        limiter.QueueLimit = 10;
+    });
+
+    options.AddFixedWindowLimiter("auth", limiter =>
+    {
+        limiter.PermitLimit = 10;
+        limiter.Window = TimeSpan.FromMinutes(1);
+        limiter.QueueProcessingOrder =
+            QueueProcessingOrder.OldestFirst;
+        limiter.QueueLimit = 2;
+    });
+
+    options.RejectionStatusCode = 429;
+});
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
+if(app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseCors("AllowAll");
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseDefaultFiles();

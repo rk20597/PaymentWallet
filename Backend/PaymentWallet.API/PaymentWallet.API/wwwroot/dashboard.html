@@ -256,6 +256,16 @@
         }
 
         .admin-only { display: none; }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+
     </style>
 </head>
 <body>
@@ -288,6 +298,15 @@
             onclick="showTab('wallets', event)">
             Wallets
         </button>
+	<button class="tab-btn" onclick="showTab('funding', event)">
+    	Funding Methods
+	</button>
+	<button class="tab-btn" onclick="showTab('addmoney', event)">
+    	Add Money
+	</button>
+	<button class="tab-btn" onclick="showTab('transactions', event)">
+    	Transactions
+	</button>
         <button class="tab-btn admin-only"
             onclick="showTab('admin', event)">
             Admin Panel
@@ -443,6 +462,186 @@
             </div>
         </div>
 
+        <!-- FUNDING METHODS TAB -->
+<div class="tab-content" id="tab-funding">
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Funding Method</h3>
+        </div>
+        <div id="fundingMessage"></div>
+        <div class="form-group">
+            <label>Type</label>
+            <select id="fundingType" 
+                onchange="showFundingFields()">
+                <option value="">Select Type</option>
+                <option value="Card">Credit/Debit Card</option>
+                <option value="BankAccount">Bank Account</option>
+                <option value="UPI">UPI</option>
+            </select>
+        </div>
+
+        <div id="cardFields" style="display:none">
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber"
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="16">
+            </div>
+            <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="text" id="expiryDate"
+                    placeholder="MM/YY">
+            </div>
+        </div>
+
+        <div id="bankFields" style="display:none">
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" id="bankAccountNumber"
+                    placeholder="Enter account number">
+            </div>
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" id="ifscCode"
+                    placeholder="Enter IFSC code">
+            </div>
+        </div>
+
+        <div id="upiFields" style="display:none">
+            <div class="form-group">
+                <label>UPI ID</label>
+                <input type="text" id="upiId"
+                    placeholder="yourname@upi">
+            </div>
+        </div>
+
+        <button class="btn-primary"
+            onclick="addFundingMethod()">
+            Add Funding Method
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>My Funding Methods</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                        <th>Added On</th>
+                    </tr>
+                </thead>
+                <tbody id="fundingMethodsTable">
+                    <tr>
+                        <td colspan="5" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ADD MONEY TAB -->
+<div class="tab-content" id="tab-addmoney">
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Money To Wallet</h3>
+        </div>
+        <div id="addMoneyMessage"></div>
+        <div class="form-group">
+            <label>Select Wallet</label>
+            <select id="addMoneyWalletId">
+                <option value="">Select Wallet</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Select Funding Method</label>
+            <select id="addMoneyFundingId">
+                <option value="">Select Funding Method</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="addMoneyAmount"
+                placeholder="Enter amount"
+                min="1">
+        </div>
+        <button class="btn-primary"
+            onclick="addMoney()">
+            Add Money
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Current Wallet Balances</h3>
+        </div>
+        <div class="wallet-grid" id="addMoneyWallets">
+            <p class="loading">Loading...</p>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSACTIONS TAB -->
+<div class="tab-content" id="tab-transactions">
+    <div class="card">
+        <div class="card-header">
+            <h3>Transaction History</h3>
+            <div style="display:flex;gap:10px;">
+                <select class="filter-select" 
+                    id="txWalletFilter"
+                    onchange="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+                    <option value="">All Wallets</option>
+                </select>
+                <select class="filter-select"
+                    id="txTypeFilter"
+                    onchange="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+                    <option value="">All Types</option>
+                    <option value="Credit">Credit</option>
+                    <option value="Debit">Debit</option>
+                </select>
+                <input type="text" id="txSearch"
+                    placeholder="Search..."
+                    onkeyup="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+			<th onclick="sortTransactions('transactionID')" style="cursor:pointer">ID:</th>
+                        <th>Wallet</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+			<th>Balance Before</th>
+			<th>Balance After</th>
+                        <th>Description</th>
+			<th onclick="sortTransactions('date')" style="cursor:pointer">Date:</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTable">
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
         <!-- ADMIN TAB -->
         <div class="tab-content admin-only" id="tab-admin">
             <div class="card">
@@ -503,6 +702,8 @@
 
     <script>
         const API = 'http://localhost:5235';
+	var allTransactions = [];
+	var allFundingMethods = [];
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
         const username = localStorage.getItem('username');
@@ -523,6 +724,31 @@
                     el.style.display = 'block';
                 });
         }
+
+	var sortField = 'date';
+	var sortAsc = false;
+
+	function sortTransactions(field) {
+    		if (sortField === field) {
+        	sortAsc = !sortAsc;
+    		} else {
+        	sortField = field;
+        	sortAsc = false;
+    		}
+
+    	var sorted = [...allTransactions].sort(function(a, b) {
+        	var valA = a[field] || '';
+        	var valB = b[field] || '';
+        	if (typeof valA === 'number') {
+            		return sortAsc ? valA - valB : valB - valA;
+        		}
+        	return sortAsc ?
+            		String(valA).localeCompare(String(valB)) :
+            		String(valB).localeCompare(String(valA));
+    		});
+    		renderTransactions(sorted);
+		}
+
 
         function showTab(tabName, event) {
             document.querySelectorAll('.tab-content')
@@ -548,6 +774,10 @@
             if (tabName === 'overview') loadOverview();
             else if (tabName === 'accounts') loadAccounts();
             else if (tabName === 'wallets') loadWallets();
+            else if (tabName === 'funding') loadFunding();
+            else if (tabName === 'addmoney') loadAddMoney();
+            else if (tabName === 'transactions') loadTransactions();
+
             else if (tabName === 'admin') loadAdmin();
         }
 
@@ -825,6 +1055,292 @@
                 }
             }).catch(function() {});
         }
+
+        function showFundingFields() {
+    var type = document
+        .getElementById('fundingType').value;
+    document.getElementById('cardFields')
+        .style.display = 'none';
+    document.getElementById('bankFields')
+        .style.display = 'none';
+    document.getElementById('upiFields')
+        .style.display = 'none';
+
+    if (type === 'Card')
+        document.getElementById('cardFields')
+            .style.display = 'block';
+    else if (type === 'BankAccount')
+        document.getElementById('bankFields')
+            .style.display = 'block';
+    else if (type === 'UPI')
+        document.getElementById('upiFields')
+            .style.display = 'block';
+}
+
+function loadFunding() {
+    apiGet('/api/fundingmethod')
+    .then(function(data) {
+        if (!Array.isArray(data)) return;
+        allFundingMethods = data;
+
+        var tbody = document
+            .getElementById('fundingMethodsTable');
+        tbody.innerHTML = '';
+
+        if (!data.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="5" class="loading">' +
+                'No funding methods added</td></tr>';
+        } else {
+            data.forEach(function(m) {
+                tbody.innerHTML += '<tr>' +
+                    '<td>' + safe(m.fundingMethodID) + '</td>' +
+                    '<td>' + safe(m.type) + '</td>' +
+                    '<td>' + safe(m.maskedDetails) + '</td>' +
+                    '<td><span class="badge badge-active">' +
+                    (m.isActive ? 'Active' : 'Inactive') +
+                    '</span></td>' +
+                    '<td>' + safe(m.createdDate) + '</td>' +
+                    '</tr>';
+            });
+        }
+
+        // Populate add money funding dropdown
+        var sel = document
+            .getElementById('addMoneyFundingId');
+        if (sel) {
+            sel.innerHTML =
+                '<option value="">Select Funding Method</option>';
+            data.forEach(function(m) {
+                sel.innerHTML +=
+                    '<option value="' + m.fundingMethodID + '">' +
+                    m.type + ' - ' + m.maskedDetails +
+                    '</option>';
+            });
+        }
+    }).catch(function() {});
+}
+
+function addFundingMethod() {
+    var type = document
+        .getElementById('fundingType').value;
+    if (!type) {
+        showMessage('fundingMessage',
+            'Please select a type', false);
+        return;
+    }
+
+    var data = { type: type };
+
+    if (type === 'Card') {
+        var cardNum = document
+            .getElementById('cardNumber').value;
+        if (!cardNum || cardNum.length < 16) {
+            showMessage('fundingMessage',
+                'Enter valid 16 digit card number', false);
+            return;
+        }
+        data.cardNumber = cardNum;
+        data.expiryDate = document
+            .getElementById('expiryDate').value;
+    } else if (type === 'BankAccount') {
+        var accNum = document
+            .getElementById('bankAccountNumber').value;
+        if (!accNum) {
+            showMessage('fundingMessage',
+                'Enter account number', false);
+            return;
+        }
+        data.accountNumber = accNum;
+    } else if (type === 'UPI') {
+        var upi = document
+            .getElementById('upiId').value;
+        if (!upi || !upi.includes('@')) {
+            showMessage('fundingMessage',
+                'Enter valid UPI ID', false);
+            return;
+        }
+        data.upiId = upi;
+    }
+
+    apiPost('/api/fundingmethod', data)
+    .then(function(res) {
+        showMessage('fundingMessage',
+            'Funding method added successfully!', true);
+        document.getElementById('fundingType').value = '';
+        showFundingFields();
+        loadFunding();
+    })
+    .catch(function() {
+        showMessage('fundingMessage',
+            'Error adding funding method', false);
+    });
+}
+
+function loadAddMoney() {
+    loadFunding();
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+
+        var sel = document
+            .getElementById('addMoneyWalletId');
+        sel.innerHTML =
+            '<option value="">Select Wallet</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                ' (₹' + (w.balance || 0).toFixed(2) + ')' +
+                '</option>';
+        });
+
+        var container = document
+            .getElementById('addMoneyWallets');
+        container.innerHTML = '';
+        wallets.forEach(function(w) {
+            container.innerHTML +=
+                '<div class="wallet-card">' +
+                '<div class="currency">' +
+                safe(w.currency) + ' Wallet</div>' +
+                '<div class="balance">₹' +
+                (w.balance || 0).toFixed(2) + '</div>' +
+                '<div class="wallet-id">Wallet #' +
+                safe(w.walletID) + '</div>' +
+                '</div>';
+        });
+    }).catch(function() {});
+}
+
+function addMoney() {
+    var walletId = document
+        .getElementById('addMoneyWalletId').value;
+    var fundingId = document
+        .getElementById('addMoneyFundingId').value;
+    var amount = parseFloat(document
+        .getElementById('addMoneyAmount').value);
+
+    if (!walletId) {
+        showMessage('addMoneyMessage',
+            'Please select a wallet', false);
+        return;
+    }
+    if (!fundingId) {
+        showMessage('addMoneyMessage',
+            'Please select a funding method', false);
+        return;
+    }
+    if (!amount || amount <= 0) {
+        showMessage('addMoneyMessage',
+            'Enter valid amount', false);
+        return;
+    }
+
+    apiPost('/api/wallet/' + walletId + '/addmoney', {
+        amount: amount,
+        fundingMethodID: parseInt(fundingId)
+    })
+    .then(function(data) {
+        showMessage('addMoneyMessage',
+            'Money added! New balance: ₹' +
+            (data.newBalance || 0).toFixed(2), true);
+        document.getElementById('addMoneyAmount')
+            .value = '';
+        loadAddMoney();
+        loadOverview();
+    })
+    .catch(function() {
+        showMessage('addMoneyMessage',
+            'Error adding money', false);
+    });
+}
+
+function loadTransactions() {
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+
+        var sel = document
+            .getElementById('txWalletFilter');
+        sel.innerHTML = '<option value="">All Wallets</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                '</option>';
+        });
+
+        var promises = wallets.map(function(w) {
+            return apiGet('/api/wallet/' + 
+                w.walletID + '/transactions');
+        });
+
+        Promise.all(promises)
+        .then(function(results) {
+            allTransactions = [];
+            results.forEach(function(txList) {
+                if (Array.isArray(txList)) {
+                    allTransactions = allTransactions
+                        .concat(txList);
+                }
+            });
+            allTransactions.sort(function(a, b) {
+                return b.date > a.date ? 1 : -1;
+            });
+            renderTransactions(allTransactions);
+        });
+    }).catch(function() {});
+}
+
+function filterTransactions() {
+    var walletId = document
+        .getElementById('txWalletFilter').value;
+    var type = document
+        .getElementById('txTypeFilter').value;
+    var search = document
+        .getElementById('txSearch').value.toLowerCase();
+
+    var filtered = allTransactions.filter(function(t) {
+        return (!walletId || 
+            String(t.walletID) === walletId) &&
+            (!type || t.type === type) &&
+            (!search || JSON.stringify(t)
+            .toLowerCase().includes(search));
+    });
+    renderTransactions(filtered);
+}
+
+function renderTransactions(data) {
+    var tbody = document
+        .getElementById('transactionsTable');
+    tbody.innerHTML = '';
+
+    if (!data.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="9" class="loading">' +
+            'No transactions found</td></tr>';
+        return;
+    }
+
+    data.forEach(function(t) {
+        var typeClass = t.type === 'Credit' ?
+            'badge-active' : 'badge-inactive';
+        tbody.innerHTML += '<tr>' +
+            '<td>' + safe(t.transactionID) + '</td>' +
+            '<td>Wallet #' + safe(t.walletID) + '</td>' +
+            '<td><span class="badge ' + typeClass + '">' +
+            safe(t.type) + '</span></td>' +
+            '<td>₹' + (t.amount || 0).toFixed(2) + '</td>' +
+	    '<td>₹' + (t.balanceBefore || 0).toFixed(2) + '</td>' +
+	    '<td>₹' + (t.balanceAfter || 0).toFixed(2) + '</td>' +
+	    '<td>' + safe(t.description) + '</td>' +
+            '<td>' + safe(t.date) + '</td>' +
+            '<td><span class="badge badge-active">' +
+            safe(t.status) + '</span></td>' +
+            '</tr>';
+    });
+}
+
 
         function logout() {
             localStorage.clear();

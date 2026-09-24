@@ -13,11 +13,14 @@ namespace PaymentWallet.API.Controllers
     public class FundingMethodController : ControllerBase
     {
         private readonly PaymentWalletRepository _repo;
+        private readonly ILogger<AccountsController> _logger;
 
         public FundingMethodController(
-            PaymentWalletRepository repo)
+            PaymentWalletRepository repo,
+            ILogger<AccountsController> logger)
         {
             _repo = repo;
+            _logger = logger;
         }
 
         [HttpGet]

@@ -14,19 +14,23 @@ namespace PaymentWallet.API.Controllers
     {
         private readonly PaymentWalletRepository _repo;
         private readonly IConfiguration _config;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(
             PaymentWalletRepository repo,
-            IConfiguration config)
+            IConfiguration config,
+            ILogger<AuthController> logger)
         {
             _repo = repo;
             _config = config;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(
             [FromBody] RegisterRequest request)
         {
+            _logger.LogInformation("Attempting to register new user.");
             if (string.IsNullOrEmpty(request.UserName) ||
                 string.IsNullOrEmpty(request.Password))
                 return BadRequest(new
@@ -66,6 +70,7 @@ namespace PaymentWallet.API.Controllers
         public async Task<IActionResult> Login(
             [FromBody] LoginRequest request)
         {
+            _logger.LogInformation("Attempting to log in user {UserName}", request.UserName);
             if (string.IsNullOrEmpty(request.UserName) ||
                 string.IsNullOrEmpty(request.Password))
                 return BadRequest(new

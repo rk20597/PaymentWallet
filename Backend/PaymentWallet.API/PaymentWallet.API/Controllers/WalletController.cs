@@ -12,11 +12,14 @@ namespace PaymentWallet.API.Controllers
     public class WalletController : ControllerBase
     {
         private readonly PaymentWalletRepository _repo;
+        private readonly ILogger<AccountsController> _logger;
 
         public WalletController(
-            PaymentWalletRepository repo)
+            PaymentWalletRepository repo,
+            ILogger<AccountsController> logger)
         {
             _repo = repo;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -191,7 +194,9 @@ namespace PaymentWallet.API.Controllers
                     " - " + method.MaskedDetails,
                 Date = DateTime.Now.ToString("dd-MM-yyyy HH:mm"),
                 Status = "Completed",
-                FundingMethodID = request.FundingMethodID
+                FundingMethodID = request.FundingMethodID,
+                BalanceBefore = wallet.Balance,
+                BalanceAfter = newBalance
             };
             await _repo.AddTransaction(transaction);
 
