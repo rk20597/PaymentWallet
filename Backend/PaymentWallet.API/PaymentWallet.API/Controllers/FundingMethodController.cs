@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using PaymentWallet.API.Models;
+using PaymentWallet.Core.Models;
 using PaymentWallet.API.Repositories;
 using System.Security.Claims;
+using PaymentWallet.Core.Interfaces;
 
 namespace PaymentWallet.API.Controllers
 {
@@ -12,14 +13,17 @@ namespace PaymentWallet.API.Controllers
     [Authorize]
     public class FundingMethodController : ControllerBase
     {
-        private readonly PaymentWalletRepository _repo;
+        private readonly IFundingMethodRepository _fundingRepo;
+        private readonly IUserRepository _userRepo;
         private readonly ILogger<AccountsController> _logger;
 
         public FundingMethodController(
-            PaymentWalletRepository repo,
+            IFundingMethodRepository fundingRepo,
+            IUserRepository userRepo,
             ILogger<AccountsController> logger)
         {
-            _repo = repo;
+            _fundingRepo = fundingRepo;
+            _userRepo = userRepo;
             _logger = logger;
         }
 
@@ -29,7 +33,7 @@ namespace PaymentWallet.API.Controllers
             var userID = await GetCurrentUserID();
             if (userID == 0) return Unauthorized();
 
-            var methods = await _repo
+            var methods = await _fundingRepo
                 .GetFundingMethodsByUser(userID);
             return Ok(methods);
         }
@@ -92,7 +96,7 @@ namespace PaymentWallet.API.Controllers
                     .ToString("dd-MM-yyyy")
             };
 
-            await _repo.AddFundingMethod(method);
+            await _fundingRepo.AddFundingMethod(method);
             return Ok(new
             {
                 message = "Funding method added successfully"
@@ -103,7 +107,7 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             return user?.UserID ?? 0;

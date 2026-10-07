@@ -6,6 +6,9 @@ using OfficeOpenXml;
 using PaymentWallet.API.Repositories;
 using System.Text;
 using System.Threading.RateLimiting;
+using PaymentWallet.Core.Interfaces;
+using PaymentWallet.Infrastructure.Repositories;
+using PaymentWallet.Infrastructure.Data;
 
 ExcelPackage.License.SetNonCommercialPersonal(
     "PaymentWallet");
@@ -19,8 +22,22 @@ var dataPath = Path.Combine(
 Console.WriteLine($"Data path: {dataPath}");
 Console.WriteLine($"File exists: {File.Exists(dataPath)}");
 
-builder.Services.AddSingleton<PaymentWalletRepository>(
-    new PaymentWalletRepository(dataPath));
+var excelContext = new ExcelContext(dataPath);
+
+builder.Services.AddSingleton(excelContext);
+builder.Services.AddSingleton<IUserRepository>(
+    new UserRepository(excelContext));
+builder.Services.AddSingleton<IAccountRepository>(
+    new AccountRepository(excelContext));
+builder.Services.AddSingleton<IWalletRepository>(
+    new WalletRepository(excelContext));
+builder.Services.AddSingleton<ITransactionRepository>(
+    new TransactionRepository(excelContext));
+builder.Services.AddSingleton<IFundingMethodRepository>(
+    new FundingMethodRepository(excelContext));
+builder.Services.AddSingleton<IPaymentRepository>(
+    new PaymentRepository(excelContext));
+
 
 builder.Services.AddCors(options =>
 {

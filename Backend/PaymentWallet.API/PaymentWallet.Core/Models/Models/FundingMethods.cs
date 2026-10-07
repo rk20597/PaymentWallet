@@ -1,4 +1,4 @@
-namespace PaymentWallet.API.Models
+namespace PaymentWallet.Core.Models
 {
    public class FundingMethods
     {

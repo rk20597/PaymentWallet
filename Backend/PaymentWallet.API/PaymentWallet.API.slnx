@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="PaymentWallet.API/PaymentWallet.API.csproj" />
+  <Project Path="PaymentWallet.Core/PaymentWallet.Core.csproj" Id="2de7b86b-341a-4b2b-8c20-add5f75706da" />
+  <Project Path="PaymentWallet.Infrastructure/PaymentWallet.Infrastructure.csproj" Id="393c4dc1-5297-4913-948a-4be77e153290" />
 </Solution>

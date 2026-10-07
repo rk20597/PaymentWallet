@@ -15,4 +15,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentWallet.Core\PaymentWallet.Core.csproj" />
+    <ProjectReference Include="..\PaymentWallet.Infrastructure\PaymentWallet.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

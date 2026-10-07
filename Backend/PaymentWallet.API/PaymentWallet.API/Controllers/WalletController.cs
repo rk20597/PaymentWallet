@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PaymentWallet.API.Models;
+using PaymentWallet.Core.Models;
 using PaymentWallet.API.Repositories;
 using System.Security.Claims;
+using PaymentWallet.Core.Interfaces;
 
 namespace PaymentWallet.API.Controllers
 {
@@ -11,14 +12,26 @@ namespace PaymentWallet.API.Controllers
     [Authorize]
     public class WalletController : ControllerBase
     {
-        private readonly PaymentWalletRepository _repo;
+        private readonly IWalletRepository _walletRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly ITransactionRepository _transactionRepo;
+        private readonly IFundingMethodRepository _fundingRepo;
+        private readonly IAccountRepository _accountRepo;
         private readonly ILogger<AccountsController> _logger;
 
         public WalletController(
-            PaymentWalletRepository repo,
+            IWalletRepository walletRepo,
+            IUserRepository userRepo,
+            ITransactionRepository transactionRepo,
+            IFundingMethodRepository fundingRepo,
+            IAccountRepository accountRepo,
             ILogger<AccountsController> logger)
         {
-            _repo = repo;
+            _walletRepo = walletRepo;
+            _userRepo = userRepo;
+            _transactionRepo = transactionRepo;
+            _fundingRepo = fundingRepo;
+            _accountRepo = accountRepo;
             _logger = logger;
         }
 
@@ -27,13 +40,13 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
                 return Unauthorized();
 
-            var wallets = await _repo
+            var wallets = await _walletRepo
                 .GetWalletsByUser(user.UserID);
             return Ok(wallets);
         }
@@ -42,24 +55,23 @@ namespace PaymentWallet.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllWallets()
         {
-            var wallets = await _repo.GetAllWallets();
+            var wallets = await _walletRepo.GetAllWallets();
             return Ok(wallets);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateWallet(
-            [FromBody] Wallet wallet)
+    [FromBody] Wallet wallet)
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
                 return Unauthorized();
 
-            // Verify account belongs to user
-            var accounts = await _repo
+            var accounts = await _accountRepo
                 .GetAccountsByUser(user.UserID);
             var account = accounts.FirstOrDefault(a =>
                 a.AccountID == wallet.AccountID);
@@ -69,6 +81,19 @@ namespace PaymentWallet.API.Controllers
                     message = "Invalid account"
                 });
 
+            
+            var existingWallets = await _walletRepo
+                .GetWalletsByUser(user.UserID);
+            var duplicate = existingWallets.FirstOrDefault(w =>
+                w.AccountID == wallet.AccountID &&
+                w.Currency == (wallet.Currency ?? "INR"));
+            if (duplicate != null)
+                return BadRequest(new
+                {
+                    message = "Wallet with this currency " +
+                        "already exists for this account"
+                });
+
             wallet.UserID = user.UserID;
             wallet.Balance = 0;
             wallet.CreatedDate = DateTime.Now
@@ -76,12 +101,13 @@ namespace PaymentWallet.API.Controllers
             wallet.Status = "Active";
             wallet.Currency = wallet.Currency ?? "INR";
 
-            await _repo.AddWallet(wallet);
+            await _walletRepo.AddWallet(wallet);
             return Ok(new
             {
                 message = "Wallet created successfully"
             });
         }
+
 
         [HttpGet("{walletId}/balance")]
         public async Task<IActionResult> GetBalance(
@@ -89,13 +115,13 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
                 return Unauthorized();
 
-            var wallets = await _repo
+            var wallets = await _walletRepo
                 .GetWalletsByUser(user.UserID);
             var wallet = wallets.FirstOrDefault(w =>
                 w.WalletID == walletId);
@@ -120,13 +146,13 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
                 return Unauthorized();
 
-            var wallets = await _repo
+            var wallets = await _walletRepo
                 .GetWalletsByUser(user.UserID);
             var wallet = wallets.FirstOrDefault(w =>
                 w.WalletID == walletId);
@@ -136,8 +162,7 @@ namespace PaymentWallet.API.Controllers
                     message = "Wallet not found"
                 });
 
-            var transactions = await _repo
-                .GetTransactionsByWallet(walletId);
+            var transactions = await _transactionRepo.GetAllTransactionsByWallet(walletId);
             return Ok(transactions);
         }
 
@@ -154,12 +179,12 @@ namespace PaymentWallet.API.Controllers
 
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null) return Unauthorized();
 
-            var wallets = await _repo
+            var wallets = await _walletRepo
                 .GetWalletsByUser(user.UserID);
             var wallet = wallets.FirstOrDefault(w =>
                 w.WalletID == walletId);
@@ -170,7 +195,7 @@ namespace PaymentWallet.API.Controllers
                 });
 
             // Verify funding method belongs to user
-            var methods = await _repo
+            var methods = await _fundingRepo
                 .GetFundingMethodsByUser(user.UserID);
             var method = methods.FirstOrDefault(m =>
                 m.FundingMethodID == request.FundingMethodID);
@@ -180,9 +205,20 @@ namespace PaymentWallet.API.Controllers
                     message = "Invalid funding method"
                 });
 
+            // Currency validation
+            if (wallet.Currency != "INR" &&
+                request.Currency != null &&
+                wallet.Currency != request.Currency)
+                return BadRequest(new
+                {
+                    message = "Currency mismatch. Wallet currency is "
+                        + wallet.Currency
+                });
+
+
             // Update wallet balance
             decimal newBalance = wallet.Balance + request.Amount;
-            await _repo.UpdateWalletBalance(walletId, newBalance);
+            await _walletRepo.UpdateWalletBalance(walletId, newBalance);
 
             // Add transaction record
             var transaction = new Transaction
@@ -198,7 +234,7 @@ namespace PaymentWallet.API.Controllers
                 BalanceBefore = wallet.Balance,
                 BalanceAfter = newBalance
             };
-            await _repo.AddTransaction(transaction);
+            await _transactionRepo.AddTransaction(transaction);
 
             return Ok(new
             {
@@ -214,6 +250,7 @@ namespace PaymentWallet.API.Controllers
     {
         public decimal Amount { get; set; }
         public int FundingMethodID { get; set; }
+        public string? Currency { get; set; }
     }
 }
 

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PaymentWallet.API.Models;
+using PaymentWallet.Core.Models;
 using PaymentWallet.API.Repositories;
 using System.Security.Claims;
 using System.Security.Principal;
+using PaymentWallet.Core.Interfaces;
 
 namespace PaymentWallet.API.Controllers
 {
@@ -12,14 +13,17 @@ namespace PaymentWallet.API.Controllers
     [Authorize]
     public class AccountsController : ControllerBase
     {
-        private readonly PaymentWalletRepository _repo;
+        private readonly IAccountRepository _accountRepo;
+        private readonly IUserRepository _userRepo;
         private readonly ILogger<AccountsController> _logger;
 
         public AccountsController(
-            PaymentWalletRepository repo,
+            IAccountRepository accountRepo,
+            IUserRepository userRepo,
             ILogger<AccountsController> logger)
         {
-            _repo = repo;
+            _accountRepo = accountRepo;
+            _userRepo = userRepo;
             _logger = logger;
         }
 
@@ -28,13 +32,13 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
                 return Unauthorized();
 
-            var accounts = await _repo
+            var accounts = await _accountRepo
                 .GetAccountsByUser(user.UserID);
             return Ok(accounts);
         }
@@ -43,7 +47,7 @@ namespace PaymentWallet.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllAccounts()
         {
-            var accounts = await _repo.GetAllAccounts();
+            var accounts = await _accountRepo.GetAllAccounts();
             return Ok(accounts);
         }
 
@@ -53,7 +57,7 @@ namespace PaymentWallet.API.Controllers
         {
             var username = User.FindFirst(
                 ClaimTypes.Name)?.Value;
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepo.GetAllUsers();
             var user = users.FirstOrDefault(u =>
                 u.UserName == username);
             if (user == null)
@@ -64,7 +68,7 @@ namespace PaymentWallet.API.Controllers
                 .ToString("dd-MM-yyyy");
             account.Status = "Active";
 
-            await _repo.AddAccount(account);
+            await _accountRepo.AddAccount(account);
             return Ok(new
             {
                 message = "Account created successfully"

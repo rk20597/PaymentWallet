@@ -1,10 +1,10 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using PaymentWallet.API.Models;
+using PaymentWallet.Core.Models;
 using System.IO;
 using System.Security.Principal;
 
-namespace PaymentWallet.API.Repositories
+namespace PaymentWallet.API.Repositories 
 {
     public class PaymentWalletRepository
     {

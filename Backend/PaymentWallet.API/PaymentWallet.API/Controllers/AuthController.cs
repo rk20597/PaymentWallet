@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using PaymentWallet.API.Models;
+using PaymentWallet.Core.Models;
 using PaymentWallet.API.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PaymentWallet.Core.Interfaces;
 
 namespace PaymentWallet.API.Controllers
 {
@@ -12,16 +13,16 @@ namespace PaymentWallet.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly PaymentWalletRepository _repo;
+        private readonly IUserRepository _userRepo;
         private readonly IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(
-            PaymentWalletRepository repo,
+            IUserRepository userRepo,
             IConfiguration config,
             ILogger<AuthController> logger)
         {
-            _repo = repo;
+            _userRepo = userRepo;
             _config = config;
             _logger = logger;
         }
@@ -38,7 +39,7 @@ namespace PaymentWallet.API.Controllers
                     message = "Username and password required"
                 });
 
-            var existing = await _repo
+            var existing = await _userRepo
                 .GetUserByUsername(request.UserName);
             if (existing != null)
                 return BadRequest(new
@@ -58,7 +59,7 @@ namespace PaymentWallet.API.Controllers
                     .ToString("dd-MM-yyyy")
             };
 
-            await _repo.AddUser(user);
+            await _userRepo.AddUser(user);
 
             return Ok(new
             {
@@ -78,7 +79,7 @@ namespace PaymentWallet.API.Controllers
                     message = "Username and password required"
                 });
 
-            var user = await _repo
+            var user = await _userRepo
                 .GetUserByUsername(request.UserName);
 
             if (user == null ||
