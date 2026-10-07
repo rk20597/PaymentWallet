@@ -307,6 +307,11 @@
 	<button class="tab-btn" onclick="showTab('transactions', event)">
     	Transactions
 	</button>
+	<button class="tab-btn"
+    onclick="showTab('sendmoney', event)">
+    Send Money
+    </button>
+
         <button class="tab-btn admin-only"
             onclick="showTab('admin', event)">
             Admin Panel
@@ -642,63 +647,205 @@
     </div>
 </div>
 
-        <!-- ADMIN TAB -->
-        <div class="tab-content admin-only" id="tab-admin">
-            <div class="card">
-                <div class="card-header">
-                    <h3>All Accounts</h3>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Account ID</th>
-                                <th>User ID</th>
-                                <th>Account Name</th>
-                                <th>Created Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminAccountsTable">
-                            <tr>
-                                <td colspan="5" class="loading">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>All Wallets</h3>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Wallet ID</th>
-                                <th>User ID</th>
-                                <th>Account ID</th>
-                                <th>Balance</th>
-                                <th>Currency</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminWalletsTable">
-                            <tr>
-                                <td colspan="6" class="loading">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<!-- SEND MONEY TAB -->
+<div class="tab-content" id="tab-sendmoney">
+    <div class="card">
+        <div class="card-header">
+            <h3>Send Money</h3>
         </div>
-
+        <div id="sendMoneyMessage"></div>
+        <div class="form-group">
+            <label>From Wallet</label>
+            <select id="sendFromWallet">
+                <option value="">Select Your Wallet</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>To Wallet ID</label>
+            <input type="number" id="sendToWallet"
+                placeholder="Enter receiver wallet ID">
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="sendAmount"
+                placeholder="Enter amount" min="1">
+        </div>
+        <div class="form-group">
+            <label>Description (optional)</label>
+            <input type="text" id="sendDescription"
+                placeholder="e.g. Rent payment">
+        </div>
+        <button class="btn-primary"
+            onclick="sendMoney()">
+            Send Money
+        </button>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Payment History</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>From Wallet</th>
+                        <th>To Wallet</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentHistoryTable">
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+        <!-- ADMIN TAB -->
+<!-- ADMIN TAB -->
+<div class="tab-content admin-only" id="tab-admin">
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="adminTotalUsers">0</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏦</div>
+            <div class="stat-value" id="adminTotalAccounts">0</div>
+            <div class="stat-label">Total Accounts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">👛</div>
+            <div class="stat-value" id="adminTotalWallets">0</div>
+            <div class="stat-label">Total Wallets</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💸</div>
+            <div class="stat-value" id="adminTotalPayments">0</div>
+            <div class="stat-label">Total Payments</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Users</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody id="adminUsersTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Accounts</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>User ID</th>
+                        <th>Account Name</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="adminAccountsTable">
+                    <tr>
+                        <td colspan="5" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Wallets</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Wallet ID</th>
+                        <th>User ID</th>
+                        <th>Account ID</th>
+                        <th>Balance</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="adminWalletsTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Payments</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>From Wallet</th>
+                        <th>To Wallet</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="adminPaymentsTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
     <script>
         const API = 'http://localhost:5235';
@@ -777,8 +924,8 @@
             else if (tabName === 'funding') loadFunding();
             else if (tabName === 'addmoney') loadAddMoney();
             else if (tabName === 'transactions') loadTransactions();
-
-            else if (tabName === 'admin') loadAdmin();
+            else if(tabName === 'sendmoney') loadSendMoney();
+	    else if (tabName === 'admin') loadAdmin();
         }
 
         function apiGet(url) {
@@ -1003,58 +1150,117 @@
             });
         }
 
-        function loadAdmin() {
-            apiGet('/api/accounts/all')
-            .then(function(accounts) {
-                if (!Array.isArray(accounts)) return;
-                var tbody = document
-                    .getElementById('adminAccountsTable');
-                tbody.innerHTML = '';
-                if (!accounts.length) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="5" class="loading">' +
-                        'No accounts</td></tr>';
-                } else {
-                    accounts.forEach(function(a) {
-                        tbody.innerHTML += '<tr>' +
-                            '<td>' + safe(a.accountID) + '</td>' +
-                            '<td>' + safe(a.userID) + '</td>' +
-                            '<td>' + safe(a.accountName) + '</td>' +
-                            '<td>' + safe(a.createdDate) + '</td>' +
-                            '<td><span class="badge badge-active">' +
-                            safe(a.status) + '</span></td>' +
-                            '</tr>';
-                    });
-                }
-            }).catch(function() {});
-
-            apiGet('/api/wallet/all')
-            .then(function(wallets) {
-                if (!Array.isArray(wallets)) return;
-                var tbody = document
-                    .getElementById('adminWalletsTable');
-                tbody.innerHTML = '';
-                if (!wallets.length) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="6" class="loading">' +
-                        'No wallets</td></tr>';
-                } else {
-                    wallets.forEach(function(w) {
-                        tbody.innerHTML += '<tr>' +
-                            '<td>' + safe(w.walletID) + '</td>' +
-                            '<td>' + safe(w.userID) + '</td>' +
-                            '<td>' + safe(w.accountID) + '</td>' +
-                            '<td>₹' +
-                            (w.balance || 0).toFixed(2) +
-                            '</td>' +
-                            '<td>' + safe(w.currency) + '</td>' +
-                            '<td><span class="badge badge-active">' +
-                            safe(w.status) + '</span></td>' +
-                            '</tr>';
-                    });
-                }
-            }).catch(function() {});
+    function loadAdmin() {
+    // Load users
+    apiGet('/api/auth/allusers')
+    .then(function(users) {
+        if (!Array.isArray(users)) return;
+        document.getElementById('adminTotalUsers')
+            .textContent = users.length;
+        var tbody = document
+            .getElementById('adminUsersTable');
+        tbody.innerHTML = '';
+        if (!users.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="6" class="loading">' +
+                'No users</td></tr>';
+            return;
         }
+        users.forEach(function(u) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(u.userID) + '</td>' +
+                '<td>' + safe(u.userName) + '</td>' +
+                '<td>' + safe(u.fullName) + '</td>' +
+                '<td><span class="badge ' +
+                (u.role === 'Admin' ? 
+                'badge-admin' : 'badge-user') + '">' +
+                safe(u.role) + '</span></td>' +
+                '<td><span class="badge ' +
+                (u.isActive ? 
+                'badge-active' : 'badge-inactive') + '">' +
+                (u.isActive ? 'Active' : 'Inactive') +
+                '</span></td>' +
+                '<td>' + safe(u.createdDate) + '</td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+
+    // Load accounts
+    apiGet('/api/accounts/all')
+    .then(function(accounts) {
+        if (!Array.isArray(accounts)) return;
+        document.getElementById('adminTotalAccounts')
+            .textContent = accounts.length;
+        var tbody = document
+            .getElementById('adminAccountsTable');
+        tbody.innerHTML = '';
+        accounts.forEach(function(a) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(a.accountID) + '</td>' +
+                '<td>' + safe(a.userID) + '</td>' +
+                '<td>' + safe(a.accountName) + '</td>' +
+                '<td>' + safe(a.createdDate) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(a.status) + '</span></td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+
+    // Load wallets
+    apiGet('/api/wallet/all')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+        document.getElementById('adminTotalWallets')
+            .textContent = wallets.length;
+        var tbody = document
+            .getElementById('adminWalletsTable');
+        tbody.innerHTML = '';
+        wallets.forEach(function(w) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(w.walletID) + '</td>' +
+                '<td>' + safe(w.userID) + '</td>' +
+                '<td>' + safe(w.accountID) + '</td>' +
+                '<td>₹' + 
+                (w.balance || 0).toFixed(2) + '</td>' +
+                '<td>' + safe(w.currency) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(w.status) + '</span></td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+
+    // Load payments
+    apiGet('/api/payment/all')
+    .then(function(payments) {
+        if (!Array.isArray(payments)) return;
+        document.getElementById('adminTotalPayments')
+            .textContent = payments.length;
+        var tbody = document
+            .getElementById('adminPaymentsTable');
+        tbody.innerHTML = '';
+        if (!payments.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="6" class="loading">' +
+                'No payments</td></tr>';
+            return;
+        }
+        payments.forEach(function(p) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(p.paymentID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.senderWalletID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.receiverWalletID) + '</td>' +
+                '<td>₹' + 
+                (p.amount || 0).toFixed(2) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(p.status) + '</span></td>' +
+                '<td>' + safe(p.authorizedDate) + '</td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+}
+
 
         function showFundingFields() {
     var type = document
@@ -1340,6 +1546,114 @@ function renderTransactions(data) {
             '</tr>';
     });
 }
+
+function loadSendMoney() {
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+        var sel = document
+            .getElementById('sendFromWallet');
+        sel.innerHTML = 
+            '<option value="">Select Your Wallet</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                ' (₹' + (w.balance || 0).toFixed(2) + ')' +
+                '</option>';
+        });
+    });
+
+    apiGet('/api/payment/history')
+    .then(function(payments) {
+        if (!Array.isArray(payments)) return;
+        var tbody = document
+            .getElementById('paymentHistoryTable');
+        tbody.innerHTML = '';
+
+        if (!payments.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="7" class="loading">' +
+                'No payments yet</td></tr>';
+            return;
+        }
+
+        payments.forEach(function(p) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(p.paymentID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.senderWalletID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.receiverWalletID) + '</td>' +
+                '<td>₹' + (p.amount||0).toFixed(2) + 
+                '</td>' +
+                '<td>' + safe(p.description) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(p.status) + '</span></td>' +
+                '<td>' + safe(p.authorizedDate) + '</td>' +
+                '</tr>';
+        });
+    });
+}
+
+function sendMoney() {
+    var fromWallet = document
+        .getElementById('sendFromWallet').value;
+    var toWallet = document
+        .getElementById('sendToWallet').value;
+    var amount = parseFloat(document
+        .getElementById('sendAmount').value);
+    var description = document
+        .getElementById('sendDescription').value;
+
+    if (!fromWallet) {
+        showMessage('sendMoneyMessage',
+            'Please select sender wallet', false);
+        return;
+    }
+    if (!toWallet) {
+        showMessage('sendMoneyMessage',
+            'Please enter receiver wallet ID', false);
+        return;
+    }
+    if (!amount || amount <= 0) {
+        showMessage('sendMoneyMessage',
+            'Enter valid amount', false);
+        return;
+    }
+
+    apiPost('/api/payment/send', {
+        senderWalletID: parseInt(fromWallet),
+        receiverWalletID: parseInt(toWallet),
+        amount: amount,
+        description: description
+    })
+    .then(function(data) {
+        if (data.message) {
+            showMessage('sendMoneyMessage',
+                data.message + ' New balance: ₹' +
+                (data.senderNewBalance || 0).toFixed(2),
+                true);
+            document.getElementById('sendAmount')
+                .value = '';
+            document.getElementById('sendToWallet')
+                .value = '';
+            document.getElementById('sendDescription')
+                .value = '';
+            loadSendMoney();
+            loadOverview();
+        } else {
+            showMessage('sendMoneyMessage',
+                data.message || 'Error sending payment',
+                false);
+        }
+    })
+    .catch(function() {
+        showMessage('sendMoneyMessage',
+            'Error sending payment', false);
+    });
+}
+
 
 
         function logout() {

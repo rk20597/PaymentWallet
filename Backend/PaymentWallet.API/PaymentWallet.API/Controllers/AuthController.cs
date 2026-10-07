@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using PaymentWallet.Core.Models;
 using PaymentWallet.API.Repositories;
+using PaymentWallet.Core.Interfaces;
+using PaymentWallet.Core.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using PaymentWallet.Core.Interfaces;
 
 namespace PaymentWallet.API.Controllers
 {
@@ -107,6 +108,15 @@ namespace PaymentWallet.API.Controllers
                 userID = user.UserID
             });
         }
+
+        [HttpGet("allusers")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userRepo.GetAllUsers();
+            return Ok(users);
+        }
+
 
         private string GenerateToken(
             string username, string role)
