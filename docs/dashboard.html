@@ -13,7 +13,6 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
         .header {
             background: linear-gradient(135deg, #0f3460, #e94560);
             color: white;
@@ -36,10 +35,6 @@
             gap: 20px;
         }
 
-        .user-info {
-            text-align: right;
-        }
-
         .user-info .name {
             font-weight: 600;
             font-size: 15px;
@@ -58,14 +53,8 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.3s;
         }
 
-        .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* TABS */
         .tab-container {
             background: white;
             padding: 0 30px;
@@ -88,14 +77,11 @@
             transition: all 0.3s;
         }
 
-        .tab-btn:hover { color: #0f3460; }
-
         .tab-btn.active {
             color: #0f3460;
             border-bottom-color: #0f3460;
         }
 
-        /* CONTENT */
         .content {
             padding: 30px;
             max-width: 1200px;
@@ -105,7 +91,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* CARDS */
         .card {
             background: white;
             border-radius: 15px;
@@ -126,7 +111,6 @@
             color: #0f3460;
         }
 
-        /* WALLET CARDS */
         .wallet-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -139,19 +123,6 @@
             border-radius: 15px;
             padding: 25px;
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .wallet-card::after {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
         }
 
         .wallet-card .currency {
@@ -171,7 +142,6 @@
             opacity: 0.7;
         }
 
-        /* STATS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -187,33 +157,17 @@
             text-align: center;
         }
 
-        .stat-card .stat-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
+        .stat-card .stat-icon { font-size: 30px; margin-bottom: 10px; }
+        .stat-card .stat-value { font-size: 24px; font-weight: 800; color: #0f3460; }
+        .stat-card .stat-label { font-size: 13px; color: #888; margin-top: 5px; }
 
-        .stat-card .stat-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: #0f3460;
-        }
-
-        .stat-card .stat-label {
-            font-size: 13px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        /* FORMS */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 15px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
         .form-group label {
             display: block;
@@ -239,7 +193,6 @@
             border-color: #0f3460;
         }
 
-        /* BUTTONS */
         .btn-primary {
             background: linear-gradient(135deg, #0f3460, #e94560);
             color: white;
@@ -249,41 +202,9 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: opacity 0.3s;
         }
 
-        .btn-primary:hover { opacity: 0.9; }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .btn-danger {
-            background: #e94560;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        /* TABLE */
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         th {
             background: #f8f9fa;
@@ -299,12 +220,12 @@
             padding: 12px 15px;
             font-size: 14px;
             border-bottom: 1px solid #f0f0f0;
-            color: #333;
         }
 
         tr:hover td { background: #f8f9fa; }
 
-        /* BADGES */
+        .table-wrapper { overflow-x: auto; }
+
         .badge {
             padding: 4px 10px;
             border-radius: 20px;
@@ -312,27 +233,11 @@
             font-weight: 600;
         }
 
-        .badge-active {
-            background: #d4edda;
-            color: #27ae60;
-        }
+        .badge-active { background: #d4edda; color: #27ae60; }
+        .badge-inactive { background: #f8d7da; color: #e94560; }
+        .badge-admin { background: #cce5ff; color: #0f3460; }
+        .badge-user { background: #e2e3e5; color: #555; }
 
-        .badge-inactive {
-            background: #f8d7da;
-            color: #e94560;
-        }
-
-        .badge-credit {
-            background: #d4edda;
-            color: #27ae60;
-        }
-
-        .badge-debit {
-            background: #f8d7da;
-            color: #e94560;
-        }
-
-        /* ALERT */
         .alert {
             padding: 12px 16px;
             border-radius: 8px;
@@ -340,17 +245,8 @@
             font-size: 14px;
         }
 
-        .alert-success {
-            background: #d4edda;
-            color: #27ae60;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #e94560;
-            border: 1px solid #f5c6cb;
-        }
+        .alert-success { background: #d4edda; color: #27ae60; }
+        .alert-error { background: #f8d7da; color: #e94560; }
 
         .loading {
             text-align: center;
@@ -359,54 +255,17 @@
             font-size: 14px;
         }
 
-        /* MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            width: 450px;
-            max-width: 90%;
-        }
-
-        .modal h3 {
-            margin-bottom: 20px;
-            color: #0f3460;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .btn-cancel {
-            background: #f0f0f0;
-            color: #555;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* ADMIN ONLY */
         .admin-only { display: none; }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+
     </style>
 </head>
 <body>
@@ -416,9 +275,7 @@
         <div class="header-logo">💳 PayWallet</div>
         <div class="header-right">
             <div class="user-info">
-                <div class="name" id="userFullName">
-                    Welcome
-                </div>
+                <div class="name" id="userFullName">Welcome</div>
                 <div class="role" id="userRole"></div>
             </div>
             <button class="btn-logout" onclick="logout()">
@@ -441,6 +298,20 @@
             onclick="showTab('wallets', event)">
             Wallets
         </button>
+	<button class="tab-btn" onclick="showTab('funding', event)">
+    	Funding Methods
+	</button>
+	<button class="tab-btn" onclick="showTab('addmoney', event)">
+    	Add Money
+	</button>
+	<button class="tab-btn" onclick="showTab('transactions', event)">
+    	Transactions
+	</button>
+	<button class="tab-btn"
+    onclick="showTab('sendmoney', event)">
+    Send Money
+    </button>
+
         <button class="tab-btn admin-only"
             onclick="showTab('admin', event)">
             Admin Panel
@@ -452,7 +323,7 @@
 
         <!-- OVERVIEW TAB -->
         <div class="tab-content active" id="tab-overview">
-            <div class="stats-grid" id="statsGrid">
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">🏦</div>
                     <div class="stat-value" id="totalAccounts">0</div>
@@ -470,7 +341,6 @@
                 </div>
             </div>
 
-            <!-- Wallet Cards -->
             <div class="card">
                 <div class="card-header">
                     <h3>My Wallets</h3>
@@ -484,7 +354,6 @@
                 </div>
             </div>
 
-            <!-- Recent Accounts -->
             <div class="card">
                 <div class="card-header">
                     <h3>My Accounts</h3>
@@ -522,12 +391,10 @@
                     <h3>Create New Account</h3>
                 </div>
                 <div id="accountMessage"></div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Account Name</label>
-                        <input type="text" id="accountName"
-                            placeholder="e.g. My Savings Account">
-                    </div>
+                <div class="form-group">
+                    <label>Account Name</label>
+                    <input type="text" id="accountName"
+                        placeholder="e.g. My Savings Account">
                 </div>
                 <button class="btn-primary"
                     onclick="createAccount()">
@@ -572,29 +439,16 @@
                     <div class="form-group">
                         <label>Select Account</label>
                         <select id="walletAccountId">
-                            <option value="">
-                                Select Account
-                            </option>
+                            <option value="">Select Account</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Currency</label>
                         <select id="walletCurrency">
-                            <option value="INR">
-                                INR - Indian Rupee
-                            </option>
-                            <option value="USD">
-                                USD - US Dollar
-                            </option>
-                            <option value="EUR">
-                                EUR - Euro
-                            </option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Wallet Name</label>
-                        <input type="text" id="walletName"
-                            placeholder="e.g. My Main Wallet">
                     </div>
                 </div>
                 <button class="btn-primary"
@@ -613,127 +467,472 @@
             </div>
         </div>
 
-        <!-- ADMIN TAB -->
-        <div class="tab-content admin-only" id="tab-admin">
-            <div class="card">
-                <div class="card-header">
-                    <h3>All Users</h3>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminUsersTable">
-                            <tr>
-                                <td colspan="6" class="loading">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- FUNDING METHODS TAB -->
+<div class="tab-content" id="tab-funding">
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Funding Method</h3>
+        </div>
+        <div id="fundingMessage"></div>
+        <div class="form-group">
+            <label>Type</label>
+            <select id="fundingType" 
+                onchange="showFundingFields()">
+                <option value="">Select Type</option>
+                <option value="Card">Credit/Debit Card</option>
+                <option value="BankAccount">Bank Account</option>
+                <option value="UPI">UPI</option>
+            </select>
+        </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>All Accounts</h3>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Account ID</th>
-                                <th>User ID</th>
-                                <th>Account Name</th>
-                                <th>Created Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminAccountsTable">
-                            <tr>
-                                <td colspan="5" class="loading">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="cardFields" style="display:none">
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber"
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="16">
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>All Wallets</h3>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Wallet ID</th>
-                                <th>User ID</th>
-                                <th>Account ID</th>
-                                <th>Balance</th>
-                                <th>Currency</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminWalletsTable">
-                            <tr>
-                                <td colspan="6" class="loading">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="text" id="expiryDate"
+                    placeholder="MM/YY">
             </div>
         </div>
 
+        <div id="bankFields" style="display:none">
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" id="bankAccountNumber"
+                    placeholder="Enter account number">
+            </div>
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" id="ifscCode"
+                    placeholder="Enter IFSC code">
+            </div>
+        </div>
+
+        <div id="upiFields" style="display:none">
+            <div class="form-group">
+                <label>UPI ID</label>
+                <input type="text" id="upiId"
+                    placeholder="yourname@upi">
+            </div>
+        </div>
+
+        <button class="btn-primary"
+            onclick="addFundingMethod()">
+            Add Funding Method
+        </button>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>My Funding Methods</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                        <th>Added On</th>
+                    </tr>
+                </thead>
+                <tbody id="fundingMethodsTable">
+                    <tr>
+                        <td colspan="5" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ADD MONEY TAB -->
+<div class="tab-content" id="tab-addmoney">
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Money To Wallet</h3>
+        </div>
+        <div id="addMoneyMessage"></div>
+        <div class="form-group">
+            <label>Select Wallet</label>
+            <select id="addMoneyWalletId">
+                <option value="">Select Wallet</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Select Funding Method</label>
+            <select id="addMoneyFundingId">
+                <option value="">Select Funding Method</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="addMoneyAmount"
+                placeholder="Enter amount"
+                min="1">
+        </div>
+        <button class="btn-primary"
+            onclick="addMoney()">
+            Add Money
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Current Wallet Balances</h3>
+        </div>
+        <div class="wallet-grid" id="addMoneyWallets">
+            <p class="loading">Loading...</p>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSACTIONS TAB -->
+<div class="tab-content" id="tab-transactions">
+    <div class="card">
+        <div class="card-header">
+            <h3>Transaction History</h3>
+            <div style="display:flex;gap:10px;">
+                <select class="filter-select" 
+                    id="txWalletFilter"
+                    onchange="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+                    <option value="">All Wallets</option>
+                </select>
+                <select class="filter-select"
+                    id="txTypeFilter"
+                    onchange="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+                    <option value="">All Types</option>
+                    <option value="Credit">Credit</option>
+                    <option value="Debit">Debit</option>
+                </select>
+                <input type="text" id="txSearch"
+                    placeholder="Search..."
+                    onkeyup="filterTransactions()"
+                    style="padding:8px;border:1px solid #ddd;border-radius:6px;">
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+			<th onclick="sortTransactions('transactionID')" style="cursor:pointer">ID:</th>
+                        <th>Wallet</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+			<th>Balance Before</th>
+			<th>Balance After</th>
+                        <th>Description</th>
+			<th onclick="sortTransactions('date')" style="cursor:pointer">Date:</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTable">
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- SEND MONEY TAB -->
+<div class="tab-content" id="tab-sendmoney">
+    <div class="card">
+        <div class="card-header">
+            <h3>Send Money</h3>
+        </div>
+        <div id="sendMoneyMessage"></div>
+        <div class="form-group">
+            <label>From Wallet</label>
+            <select id="sendFromWallet">
+                <option value="">Select Your Wallet</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>To Wallet ID</label>
+            <input type="number" id="sendToWallet"
+                placeholder="Enter receiver wallet ID">
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="sendAmount"
+                placeholder="Enter amount" min="1">
+        </div>
+        <div class="form-group">
+            <label>Description (optional)</label>
+            <input type="text" id="sendDescription"
+                placeholder="e.g. Rent payment">
+        </div>
+        <button class="btn-primary"
+            onclick="sendMoney()">
+            Send Money
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Payment History</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>From Wallet</th>
+                        <th>To Wallet</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentHistoryTable">
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+        <!-- ADMIN TAB -->
+<!-- ADMIN TAB -->
+<div class="tab-content admin-only" id="tab-admin">
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="adminTotalUsers">0</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏦</div>
+            <div class="stat-value" id="adminTotalAccounts">0</div>
+            <div class="stat-label">Total Accounts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">👛</div>
+            <div class="stat-value" id="adminTotalWallets">0</div>
+            <div class="stat-label">Total Wallets</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💸</div>
+            <div class="stat-value" id="adminTotalPayments">0</div>
+            <div class="stat-label">Total Payments</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Users</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody id="adminUsersTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Accounts</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>User ID</th>
+                        <th>Account Name</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="adminAccountsTable">
+                    <tr>
+                        <td colspan="5" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Wallets</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Wallet ID</th>
+                        <th>User ID</th>
+                        <th>Account ID</th>
+                        <th>Balance</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="adminWalletsTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>All Payments</h3>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>From Wallet</th>
+                        <th>To Wallet</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="adminPaymentsTable">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+    <div class="card-header">
+        <h3>Pending Refund Requests</h3>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>From Wallet</th>
+                    <th>To Wallet</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="adminRefundsTable">
+                <tr>
+                    <td colspan="5" class="loading">
+                        Loading...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
 
     <script>
         const API = 'http://localhost:5235';
+	var allTransactions = [];
+	var allFundingMethods = [];
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
         const username = localStorage.getItem('username');
         const fullName = localStorage.getItem('fullName');
 
         if (!token) {
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }
 
-        // Setup UI
         document.getElementById('userFullName')
-            .textContent = fullName || username;
+            .textContent = fullName || username || 'User';
         document.getElementById('userRole')
-            .textContent = role;
+            .textContent = role || '';
 
         if (role === 'Admin') {
             document.querySelectorAll('.admin-only')
-                .forEach(el => {
+                .forEach(function(el) {
                     el.style.display = 'block';
                 });
         }
 
-        // ==================
-        // TAB NAVIGATION
-        // ==================
+	var sortField = 'date';
+	var sortAsc = false;
+
+	function sortTransactions(field) {
+    		if (sortField === field) {
+        	sortAsc = !sortAsc;
+    		} else {
+        	sortField = field;
+        	sortAsc = false;
+    		}
+
+    	var sorted = [...allTransactions].sort(function(a, b) {
+        	var valA = a[field] || '';
+        	var valB = b[field] || '';
+        	if (typeof valA === 'number') {
+            		return sortAsc ? valA - valB : valB - valA;
+        		}
+        	return sortAsc ?
+            		String(valA).localeCompare(String(valB)) :
+            		String(valB).localeCompare(String(valA));
+    		});
+    		renderTransactions(sorted);
+		}
+
 
         function showTab(tabName, event) {
             document.querySelectorAll('.tab-content')
-                .forEach(t => {
+                .forEach(function(t) {
                     t.classList.remove('active');
                     t.style.display = 'none';
                 });
             document.querySelectorAll('.tab-btn')
-                .forEach(b => b.classList.remove('active'));
+                .forEach(function(b) {
+                    b.classList.remove('active');
+                });
 
             var tab = document
                 .getElementById('tab-' + tabName);
@@ -748,19 +947,19 @@
             if (tabName === 'overview') loadOverview();
             else if (tabName === 'accounts') loadAccounts();
             else if (tabName === 'wallets') loadWallets();
-            else if (tabName === 'admin') loadAdmin();
+            else if (tabName === 'funding') loadFunding();
+            else if (tabName === 'addmoney') loadAddMoney();
+            else if (tabName === 'transactions') loadTransactions();
+            else if(tabName === 'sendmoney') loadSendMoney();
+	    else if (tabName === 'admin') loadAdmin();
         }
-
-        // ==================
-        // API HELPERS
-        // ==================
 
         function apiGet(url) {
             return fetch(API + url, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
-            }).then(r => r.json());
+            }).then(function(r) { return r.json(); });
         }
 
         function apiPost(url, data) {
@@ -771,28 +970,38 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then(r => r.json());
+            }).then(function(r) { return r.json(); });
         }
 
         function safe(val) {
-            return val || '';
+            return val !== null && 
+                val !== undefined ? val : '';
         }
 
-        // ==================
-        // OVERVIEW
-        // ==================
+        function showMessage(id, msg, success) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.innerHTML = '<div class="alert ' +
+                (success ? 'alert-success' : 'alert-error') +
+                '">' + msg + '</div>';
+            setTimeout(function() {
+                el.innerHTML = '';
+            }, 3000);
+        }
 
         function loadOverview() {
             apiGet('/api/accounts')
             .then(function(accounts) {
+                if (!Array.isArray(accounts)) return;
                 document.getElementById('totalAccounts')
-                    .textContent = accounts.length || 0;
+                    .textContent = accounts.length;
 
                 var tbody = document
                     .getElementById('overviewAccounts');
                 tbody.innerHTML = '';
+
                 if (!accounts.length) {
-                    tbody.innerHTML = 
+                    tbody.innerHTML =
                         '<tr><td colspan="4" class="loading">' +
                         'No accounts yet</td></tr>';
                 } else {
@@ -806,12 +1015,13 @@
                             '</tr>';
                     });
                 }
-            });
+            }).catch(function() {});
 
             apiGet('/api/wallet')
             .then(function(wallets) {
+                if (!Array.isArray(wallets)) return;
                 document.getElementById('totalWallets')
-                    .textContent = wallets.length || 0;
+                    .textContent = wallets.length;
 
                 var total = wallets.reduce(function(sum, w) {
                     return sum + (w.balance || 0);
@@ -824,70 +1034,69 @@
                 container.innerHTML = '';
 
                 if (!wallets.length) {
-                    container.innerHTML = 
+                    container.innerHTML =
                         '<p class="loading">No wallets yet. Create one!</p>';
                 } else {
                     wallets.forEach(function(w) {
-                        container.innerHTML += 
+                        container.innerHTML +=
                             '<div class="wallet-card">' +
-                            '<div class="currency">' + 
+                            '<div class="currency">' +
                             safe(w.currency) + ' Wallet</div>' +
-                            '<div class="balance">₹' + 
-                            (w.balance || 0).toFixed(2) + '</div>' +
-                            '<div class="wallet-id">Wallet #' + 
+                            '<div class="balance">₹' +
+                            (w.balance || 0).toFixed(2) +
+                            '</div>' +
+                            '<div class="wallet-id">Wallet #' +
                             safe(w.walletID) + '</div>' +
                             '</div>';
                     });
                 }
-            });
+            }).catch(function() {});
         }
-
-        // ==================
-        // ACCOUNTS
-        // ==================
 
         function loadAccounts() {
             apiGet('/api/accounts')
             .then(function(accounts) {
+                if (!Array.isArray(accounts)) return;
+
                 var tbody = document
                     .getElementById('accountsTable');
                 tbody.innerHTML = '';
 
                 if (!accounts.length) {
-                    tbody.innerHTML = 
+                    tbody.innerHTML =
                         '<tr><td colspan="4" class="loading">' +
                         'No accounts yet</td></tr>';
-                    return;
+                } else {
+                    accounts.forEach(function(a) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td>' + safe(a.accountID) + '</td>' +
+                            '<td>' + safe(a.accountName) + '</td>' +
+                            '<td>' + safe(a.createdDate) + '</td>' +
+                            '<td><span class="badge badge-active">' +
+                            safe(a.status) + '</span></td>' +
+                            '</tr>';
+                    });
                 }
 
-                accounts.forEach(function(a) {
-                    tbody.innerHTML += '<tr>' +
-                        '<td>' + safe(a.accountID) + '</td>' +
-                        '<td>' + safe(a.accountName) + '</td>' +
-                        '<td>' + safe(a.createdDate) + '</td>' +
-                        '<td><span class="badge badge-active">' +
-                        safe(a.status) + '</span></td>' +
-                        '</tr>';
-                });
-
-                // Populate wallet account dropdown
                 var sel = document
                     .getElementById('walletAccountId');
-                sel.innerHTML = 
-                    '<option value="">Select Account</option>';
-                accounts.forEach(function(a) {
-                    sel.innerHTML += 
-                        '<option value="' + a.accountID + '">' +
-                        a.accountName + '</option>';
-                });
-            });
+                if (sel) {
+                    sel.innerHTML =
+                        '<option value="">Select Account</option>';
+                    accounts.forEach(function(a) {
+                        sel.innerHTML +=
+                            '<option value="' + a.accountID + '">' +
+                            a.accountName + '</option>';
+                    });
+                }
+            }).catch(function() {});
         }
 
         function createAccount() {
             var name = document
                 .getElementById('accountName').value;
             if (!name) {
-                showMessage('accountMessage', 
+                showMessage('accountMessage',
                     'Please enter account name', false);
                 return;
             }
@@ -896,49 +1105,48 @@
                 accountName: name
             })
             .then(function(data) {
-                showMessage('accountMessage', 
+                showMessage('accountMessage',
                     'Account created successfully!', true);
                 document.getElementById('accountName')
                     .value = '';
                 loadAccounts();
             })
             .catch(function() {
-                showMessage('accountMessage', 
+                showMessage('accountMessage',
                     'Error creating account', false);
             });
         }
-
-        // ==================
-        // WALLETS
-        // ==================
 
         function loadWallets() {
             loadAccounts();
             apiGet('/api/wallet')
             .then(function(wallets) {
+                if (!Array.isArray(wallets)) return;
+
                 var container = document
                     .getElementById('walletsGrid');
                 container.innerHTML = '';
 
                 if (!wallets.length) {
-                    container.innerHTML = 
+                    container.innerHTML =
                         '<p class="loading">No wallets yet</p>';
-                    return;
+                } else {
+                    wallets.forEach(function(w) {
+                        container.innerHTML +=
+                            '<div class="wallet-card">' +
+                            '<div class="currency">' +
+                            safe(w.currency) + ' Wallet</div>' +
+                            '<div class="balance">₹' +
+                            (w.balance || 0).toFixed(2) +
+                            '</div>' +
+                            '<div class="wallet-id">Wallet #' +
+                            safe(w.walletID) +
+                            ' | Account #' +
+                            safe(w.accountID) + '</div>' +
+                            '</div>';
+                    });
                 }
-
-                wallets.forEach(function(w) {
-                    container.innerHTML += 
-                        '<div class="wallet-card">' +
-                        '<div class="currency">' + 
-                        safe(w.currency) + ' Wallet</div>' +
-                        '<div class="balance">₹' + 
-                        (w.balance || 0).toFixed(2) + '</div>' +
-                        '<div class="wallet-id">Wallet #' + 
-                        safe(w.walletID) + ' | Account #' +
-                        safe(w.accountID) + '</div>' +
-                        '</div>';
-                });
-            });
+            }).catch(function() {});
         }
 
         function createWallet() {
@@ -948,7 +1156,7 @@
                 .getElementById('walletCurrency').value;
 
             if (!accountId) {
-                showMessage('walletMessage', 
+                showMessage('walletMessage',
                     'Please select an account', false);
                 return;
             }
@@ -958,405 +1166,605 @@
                 currency: currency
             })
             .then(function(data) {
-                showMessage('walletMessage', 
+                showMessage('walletMessage',
                     'Wallet created successfully!', true);
                 loadWallets();
             })
             .catch(function() {
-                showMessage('walletMessage', 
+                showMessage('walletMessage',
                     'Error creating wallet', false);
             });
         }
 
-        // ==================
-        // ADMIN
-        // ==================
+    function loadAdmin() {
+    // Load users
+    apiGet('/api/auth/allusers')
+    .then(function(users) {
+        if (!Array.isArray(users)) return;
+        document.getElementById('adminTotalUsers')
+            .textContent = users.length;
+        var tbody = document
+            .getElementById('adminUsersTable');
+        tbody.innerHTML = '';
+        if (!users.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="6" class="loading">' +
+                'No users</td></tr>';
+            return;
+        }
+        users.forEach(function(u) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(u.userID) + '</td>' +
+                '<td>' + safe(u.userName) + '</td>' +
+                '<td>' + safe(u.fullName) + '</td>' +
+                '<td><span class="badge ' +
+                (u.role === 'Admin' ? 
+                'badge-admin' : 'badge-user') + '">' +
+                safe(u.role) + '</span></td>' +
+                '<td><span class="badge ' +
+                (u.isActive ? 
+                'badge-active' : 'badge-inactive') + '">' +
+                (u.isActive ? 'Active' : 'Inactive') +
+                '</span></td>' +
+                '<td>' + safe(u.createdDate) + '</td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
 
-        function loadAdmin() {
-            apiGet('/api/accounts/all')
-            .then(function(accounts) {
-                var tbody = document
-                    .getElementById('adminAccountsTable');
-                tbody.innerHTML = '';
-                accounts.forEach(function(a) {
-                    tbody.innerHTML += '<tr>' +
-                        '<td>' + safe(a.accountID) + '</td>' +
-                        '<td>' + safe(a.userID) + '</td>' +
-                        '<td>' + safe(a.accountName) + '</td>' +
-                        '<td>' + safe(a.createdDate) + '</td>' +
-                        '<td><span class="badge badge-active">' +
-                        safe(a.status) + '</span></td>' +
-                        '</tr>';
-                });
-            });
+    // Load accounts
+    apiGet('/api/accounts/all')
+    .then(function(accounts) {
+        if (!Array.isArray(accounts)) return;
+        document.getElementById('adminTotalAccounts')
+            .textContent = accounts.length;
+        var tbody = document
+            .getElementById('adminAccountsTable');
+        tbody.innerHTML = '';
+        accounts.forEach(function(a) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(a.accountID) + '</td>' +
+                '<td>' + safe(a.userID) + '</td>' +
+                '<td>' + safe(a.accountName) + '</td>' +
+                '<td>' + safe(a.createdDate) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(a.status) + '</span></td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
 
-            apiGet('/api/wallet/all')
-            .then(function(wallets) {
-                var tbody = document
-                    .getElementById('adminWalletsTable');
-                tbody.innerHTML = '';
-                wallets.forEach(function(w) {
-                    tbody.innerHTML += '<tr>' +
-                        '<td>' + safe(w.walletID) + '</td>' +
-                        '<td>' + safe(w.userID) + '</td>' +
-                        '<td>' + safe(w.accountID) + '</td>' +
-                        '<td>₹' + (w.balance || 0).toFixed(2) + 
-                        '</td>' +
-                        '<td>' + safe(w.currency) + '</td>' +
-                        '<td><span class="badge badge-active">' +
-                        safe(w.status) + '</span></td>' +
-                        '</tr>';
-                });
+    // Load wallets
+    apiGet('/api/wallet/all')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+        document.getElementById('adminTotalWallets')
+            .textContent = wallets.length;
+        var tbody = document
+            .getElementById('adminWalletsTable');
+        tbody.innerHTML = '';
+        wallets.forEach(function(w) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(w.walletID) + '</td>' +
+                '<td>' + safe(w.userID) + '</td>' +
+                '<td>' + safe(w.accountID) + '</td>' +
+                '<td>₹' + 
+                (w.balance || 0).toFixed(2) + '</td>' +
+                '<td>' + safe(w.currency) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(w.status) + '</span></td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+
+    // Load payments
+    apiGet('/api/payment/all')
+    .then(function(payments) {
+        if (!Array.isArray(payments)) return;
+        document.getElementById('adminTotalPayments')
+            .textContent = payments.length;
+        var tbody = document
+            .getElementById('adminPaymentsTable');
+        tbody.innerHTML = '';
+        if (!payments.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="6" class="loading">' +
+                'No payments</td></tr>';
+            return;
+        }
+        payments.forEach(function(p) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(p.paymentID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.senderWalletID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.receiverWalletID) + '</td>' +
+                '<td>₹' + 
+                (p.amount || 0).toFixed(2) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(p.status) + '</span></td>' +
+                '<td>' + safe(p.authorizedDate) + '</td>' +
+                '</tr>';
+        });
+    }).catch(function() {});
+
+    apiGet('/api/payment/all')
+.then(function(payments) {
+    if (!Array.isArray(payments)) return;
+    var pending = payments.filter(function(p) {
+        return p.status === 'RefundRequested';
+    });
+    
+    var tbody = document
+        .getElementById('adminRefundsTable');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (!pending.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="loading">' +
+            'No pending refunds</td></tr>';
+        return;
+    }
+
+    pending.forEach(function(p) {
+        tbody.innerHTML += '<tr>' +
+            '<td>' + safe(p.paymentID) + '</td>' +
+            '<td>Wallet #' + safe(p.senderWalletID) + '</td>' +
+            '<td>Wallet #' + safe(p.receiverWalletID) + '</td>' +
+            '<td>₹' + (p.amount||0).toFixed(2) + '</td>' +
+            '<td><button class="btn-primary" ' +
+            'style="padding:4px 10px;font-size:12px" ' +
+            'onclick="approveRefund(' + p.paymentID + ')">' +
+            'Approve Refund</button></td>' +
+            '</tr>';
+    });
+}).catch(function() {});
+
+}
+
+
+        function showFundingFields() {
+    var type = document
+        .getElementById('fundingType').value;
+    document.getElementById('cardFields')
+        .style.display = 'none';
+    document.getElementById('bankFields')
+        .style.display = 'none';
+    document.getElementById('upiFields')
+        .style.display = 'none';
+
+    if (type === 'Card')
+        document.getElementById('cardFields')
+            .style.display = 'block';
+    else if (type === 'BankAccount')
+        document.getElementById('bankFields')
+            .style.display = 'block';
+    else if (type === 'UPI')
+        document.getElementById('upiFields')
+            .style.display = 'block';
+}
+
+function loadFunding() {
+    apiGet('/api/fundingmethod')
+    .then(function(data) {
+        if (!Array.isArray(data)) return;
+        allFundingMethods = data;
+
+        var tbody = document
+            .getElementById('fundingMethodsTable');
+        tbody.innerHTML = '';
+
+        if (!data.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="5" class="loading">' +
+                'No funding methods added</td></tr>';
+        } else {
+            data.forEach(function(m) {
+                tbody.innerHTML += '<tr>' +
+                    '<td>' + safe(m.fundingMethodID) + '</td>' +
+                    '<td>' + safe(m.type) + '</td>' +
+                    '<td>' + safe(m.maskedDetails) + '</td>' +
+                    '<td><span class="badge badge-active">' +
+                    (m.isActive ? 'Active' : 'Inactive') +
+                    '</span></td>' +
+                    '<td>' + safe(m.createdDate) + '</td>' +
+                    '</tr>';
             });
         }
 
-        // ==================
-        // HELPERS
-        // ==================
-
-        function showMessage(elementId, message, success) {
-            var el = document.getElementById(elementId);
-            if (el) {
-                el.innerHTML = '<div class="alert ' +
-                    (success ? 'alert-success' : 'alert-error') +
-                    '">' + message + '</div>';
-                setTimeout(function() {
-                    el.innerHTML = '';
-                }, 3000);
-            }
+        // Populate add money funding dropdown
+        var sel = document
+            .getElementById('addMoneyFundingId');
+        if (sel) {
+            sel.innerHTML =
+                '<option value="">Select Funding Method</option>';
+            data.forEach(function(m) {
+                sel.innerHTML +=
+                    '<option value="' + m.fundingMethodID + '">' +
+                    m.type + ' - ' + m.maskedDetails +
+                    '</option>';
+            });
         }
+    }).catch(function() {});
+}
+
+function addFundingMethod() {
+    var type = document
+        .getElementById('fundingType').value;
+    if (!type) {
+        showMessage('fundingMessage',
+            'Please select a type', false);
+        return;
+    }
+
+    var data = { type: type };
+
+    if (type === 'Card') {
+        var cardNum = document
+            .getElementById('cardNumber').value;
+        if (!cardNum || cardNum.length < 16) {
+            showMessage('fundingMessage',
+                'Enter valid 16 digit card number', false);
+            return;
+        }
+        data.cardNumber = cardNum;
+        data.expiryDate = document
+            .getElementById('expiryDate').value;
+    } else if (type === 'BankAccount') {
+        var accNum = document
+            .getElementById('bankAccountNumber').value;
+        if (!accNum) {
+            showMessage('fundingMessage',
+                'Enter account number', false);
+            return;
+        }
+        data.accountNumber = accNum;
+    } else if (type === 'UPI') {
+        var upi = document
+            .getElementById('upiId').value;
+        if (!upi || !upi.includes('@')) {
+            showMessage('fundingMessage',
+                'Enter valid UPI ID', false);
+            return;
+        }
+        data.upiId = upi;
+    }
+
+    apiPost('/api/fundingmethod', data)
+    .then(function(res) {
+        showMessage('fundingMessage',
+            'Funding method added successfully!', true);
+        document.getElementById('fundingType').value = '';
+        showFundingFields();
+        loadFunding();
+    })
+    .catch(function() {
+        showMessage('fundingMessage',
+            'Error adding funding method', false);
+    });
+}
+
+function loadAddMoney() {
+    loadFunding();
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+
+        var sel = document
+            .getElementById('addMoneyWalletId');
+        sel.innerHTML =
+            '<option value="">Select Wallet</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                ' (₹' + (w.balance || 0).toFixed(2) + ')' +
+                '</option>';
+        });
+
+        var container = document
+            .getElementById('addMoneyWallets');
+        container.innerHTML = '';
+        wallets.forEach(function(w) {
+            container.innerHTML +=
+                '<div class="wallet-card">' +
+                '<div class="currency">' +
+                safe(w.currency) + ' Wallet</div>' +
+                '<div class="balance">₹' +
+                (w.balance || 0).toFixed(2) + '</div>' +
+                '<div class="wallet-id">Wallet #' +
+                safe(w.walletID) + '</div>' +
+                '</div>';
+        });
+    }).catch(function() {});
+}
+
+function addMoney() {
+    var walletId = document
+        .getElementById('addMoneyWalletId').value;
+    var fundingId = document
+        .getElementById('addMoneyFundingId').value;
+    var amount = parseFloat(document
+        .getElementById('addMoneyAmount').value);
+
+    if (!walletId) {
+        showMessage('addMoneyMessage',
+            'Please select a wallet', false);
+        return;
+    }
+    if (!fundingId) {
+        showMessage('addMoneyMessage',
+            'Please select a funding method', false);
+        return;
+    }
+    if (!amount || amount <= 0) {
+        showMessage('addMoneyMessage',
+            'Enter valid amount', false);
+        return;
+    }
+
+    apiPost('/api/wallet/' + walletId + '/addmoney', {
+        amount: amount,
+        fundingMethodID: parseInt(fundingId)
+    })
+    .then(function(data) {
+        showMessage('addMoneyMessage',
+            'Money added! New balance: ₹' +
+            (data.newBalance || 0).toFixed(2), true);
+        document.getElementById('addMoneyAmount')
+            .value = '';
+        loadAddMoney();
+        loadOverview();
+    })
+    .catch(function() {
+        showMessage('addMoneyMessage',
+            'Error adding money', false);
+    });
+}
+
+function loadTransactions() {
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+
+        var sel = document
+            .getElementById('txWalletFilter');
+        sel.innerHTML = '<option value="">All Wallets</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                '</option>';
+        });
+
+        var promises = wallets.map(function(w) {
+            return apiGet('/api/wallet/' + 
+                w.walletID + '/transactions');
+        });
+
+        Promise.all(promises)
+        .then(function(results) {
+            allTransactions = [];
+            results.forEach(function(txList) {
+                if (Array.isArray(txList)) {
+                    allTransactions = allTransactions
+                        .concat(txList);
+                }
+            });
+            allTransactions.sort(function(a, b) {
+                return b.date > a.date ? 1 : -1;
+            });
+            renderTransactions(allTransactions);
+        });
+    }).catch(function() {});
+}
+
+function filterTransactions() {
+    var walletId = document
+        .getElementById('txWalletFilter').value;
+    var type = document
+        .getElementById('txTypeFilter').value;
+    var search = document
+        .getElementById('txSearch').value.toLowerCase();
+
+    var filtered = allTransactions.filter(function(t) {
+        return (!walletId || 
+            String(t.walletID) === walletId) &&
+            (!type || t.type === type) &&
+            (!search || JSON.stringify(t)
+            .toLowerCase().includes(search));
+    });
+    renderTransactions(filtered);
+}
+
+function renderTransactions(data) {
+    var tbody = document
+        .getElementById('transactionsTable');
+    tbody.innerHTML = '';
+
+    if (!data.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="9" class="loading">' +
+            'No transactions found</td></tr>';
+        return;
+    }
+
+    data.forEach(function(t) {
+        var typeClass = t.type === 'Credit' ?
+            'badge-active' : 'badge-inactive';
+        tbody.innerHTML += '<tr>' +
+            '<td>' + safe(t.transactionID) + '</td>' +
+            '<td>Wallet #' + safe(t.walletID) + '</td>' +
+            '<td><span class="badge ' + typeClass + '">' +
+            safe(t.type) + '</span></td>' +
+            '<td>₹' + (t.amount || 0).toFixed(2) + '</td>' +
+	    '<td>₹' + (t.balanceBefore || 0).toFixed(2) + '</td>' +
+	    '<td>₹' + (t.balanceAfter || 0).toFixed(2) + '</td>' +
+	    '<td>' + safe(t.description) + '</td>' +
+            '<td>' + safe(t.date) + '</td>' +
+            '<td><span class="badge badge-active">' +
+            safe(t.status) + '</span></td>' +
+            '</tr>';
+    });
+}
+
+function loadSendMoney() {
+    apiGet('/api/wallet')
+    .then(function(wallets) {
+        if (!Array.isArray(wallets)) return;
+        var sel = document
+            .getElementById('sendFromWallet');
+        sel.innerHTML = 
+            '<option value="">Select Your Wallet</option>';
+        wallets.forEach(function(w) {
+            sel.innerHTML +=
+                '<option value="' + w.walletID + '">' +
+                w.currency + ' Wallet #' + w.walletID +
+                ' (₹' + (w.balance || 0).toFixed(2) + ')' +
+                '</option>';
+        });
+    });
+
+    apiGet('/api/payment/history')
+    .then(function(payments) {
+        if (!Array.isArray(payments)) return;
+        var tbody = document
+            .getElementById('paymentHistoryTable');
+        tbody.innerHTML = '';
+
+        if (!payments.length) {
+            tbody.innerHTML =
+                '<tr><td colspan="7" class="loading">' +
+                'No payments yet</td></tr>';
+            return;
+        }
+
+        payments.forEach(function(p) {
+            tbody.innerHTML += '<tr>' +
+                '<td>' + safe(p.paymentID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.senderWalletID) + '</td>' +
+                '<td>Wallet #' + 
+                safe(p.receiverWalletID) + '</td>' +
+                '<td>₹' + (p.amount||0).toFixed(2) + 
+                '</td>' +
+                '<td>' + safe(p.description) + '</td>' +
+                '<td><span class="badge badge-active">' +
+                safe(p.status) + '</span></td>' +
+                '<td>' + safe(p.authorizedDate) + '</td>' +
+                 '<td>' +
+                (p.status === 'Completed' ? 
+                '<button class="btn-danger" ' +
+                'style="font-size:11px;padding:4px 8px" ' +
+                'onclick="requestRefund(' + p.paymentID + 
+                ',' + p.amount + ')">' +
+                'Request Refund</button>' : 
+                safe(p.status)) +
+                '</td>'
+
+                '</tr>';
+        });
+    });
+}
+
+function sendMoney() {
+    var fromWallet = document
+        .getElementById('sendFromWallet').value;
+    var toWallet = document
+        .getElementById('sendToWallet').value;
+    var amount = parseFloat(document
+        .getElementById('sendAmount').value);
+    var description = document
+        .getElementById('sendDescription').value;
+
+    if (!fromWallet) {
+        showMessage('sendMoneyMessage',
+            'Please select sender wallet', false);
+        return;
+    }
+    if (!toWallet) {
+        showMessage('sendMoneyMessage',
+            'Please enter receiver wallet ID', false);
+        return;
+    }
+    if (!amount || amount <= 0) {
+        showMessage('sendMoneyMessage',
+            'Enter valid amount', false);
+        return;
+    }
+
+    apiPost('/api/payment/send', {
+        senderWalletID: parseInt(fromWallet),
+        receiverWalletID: parseInt(toWallet),
+        amount: amount,
+        description: description
+    })
+    .then(function(data) {
+        if (data.message) {
+            showMessage('sendMoneyMessage',
+                data.message + ' New balance: ₹' +
+                (data.senderNewBalance || 0).toFixed(2),
+                true);
+            document.getElementById('sendAmount')
+                .value = '';
+            document.getElementById('sendToWallet')
+                .value = '';
+            document.getElementById('sendDescription')
+                .value = '';
+            loadSendMoney();
+            loadOverview();
+        } else {
+            showMessage('sendMoneyMessage',
+                data.message || 'Error sending payment',
+                false);
+        }
+    })
+    .catch(function() {
+        showMessage('sendMoneyMessage',
+            'Error sending payment', false);
+    });
+}
+
+function requestRefund(paymentId, amount) {
+    if (!confirm('Request refund of ₹' + 
+        parseFloat(amount).toFixed(2) + '?')) return;
+
+    apiPost('/api/payment/' + paymentId + 
+        '/requestrefund', {
+        amount: amount,
+        reason: 'User requested refund'
+    })
+    .then(function(data) {
+        alert(data.message || 'Refund requested');
+        loadSendMoney();
+    })
+    .catch(function() {
+        alert('Error requesting refund');
+    });
+}
+
+function approveRefund(paymentId) {
+    if (!confirm('Approve refund for Payment #' + 
+        paymentId + '?')) return;
+
+    apiPost('/api/payment/' + paymentId + 
+        '/approverefund', {})
+    .then(function(data) {
+        alert(data.message || 'Refund approved');
+        loadAdmin();
+    })
+    .catch(function() {
+        alert('Error approving refund');
+    });
+}
+
 
         function logout() {
             localStorage.clear();
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }
 
         // Initial load
         loadOverview();
-    </script>
-</body>
-</html>
-
-On Wed, 16 Sept, 2026, 18:36 Rohan Kulkarni, <rohanrocks.10.rk@gmail.com> wrote:
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PayWallet</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 420px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo h1 {
-            font-size: 32px;
-            color: #0f3460;
-            font-weight: 800;
-        }
-
-        .logo p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 30px;
-            background: #f5f5f5;
-            border-radius: 10px;
-            padding: 4px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: 600;
-            color: #888;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            background: white;
-            color: #0f3460;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #555;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: border 0.3s;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: #0f3460;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #0f3460, #e94560);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .btn:hover { opacity: 0.9; }
-
-        .error {
-            color: #e94560;
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .success {
-            color: #27ae60;
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .form-section { display: none; }
-        .form-section.active { display: block; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo">
-            <h1>💳 PayWallet</h1>
-            <p>Your Digital Payment Solution</p>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('login')">
-                Login
-            </div>
-            <div class="tab" onclick="switchTab('register')">
-                Register
-            </div>
-        </div>
-
-        <!-- Login Form -->
-        <div class="form-section active" id="loginSection">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="loginEmail" 
-                    placeholder="john@gmail.com">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" 
-                    placeholder="Enter password">
-            </div>
-            <button class="btn" onclick="login()">
-                Login
-            </button>
-            <div id="loginMessage"></div>
-        </div>
-
-        <!-- Register Form -->
-        <div class="form-section" id="registerSection">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="regName" 
-                    placeholder="John Doe">
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="regEmail" 
-                    placeholder="john@gmail.com">
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" id="regPhone" 
-                    placeholder="9999999999">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="regPassword" 
-                    placeholder="Min 8 characters">
-            </div>
-            <button class="btn" onclick="register()">
-                Create Account
-            </button>
-            <div id="registerMessage"></div>
-        </div>
-    </div>
-
-    <script>
-        const API = 'http://localhost:5235';
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab')
-                .forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.form-section')
-                .forEach(s => s.classList.remove('active'));
-
-            if (tab === 'login') {
-                document.querySelectorAll('.tab')[0]
-                    .classList.add('active');
-                document.getElementById('loginSection')
-                    .classList.add('active');
-            } else {
-                document.querySelectorAll('.tab')[1]
-                    .classList.add('active');
-                document.getElementById('registerSection')
-                    .classList.add('active');
-            }
-        }
-
-        async function login() {
-            var email = document
-                .getElementById('loginEmail').value;
-            var password = document
-                .getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                document.getElementById('loginMessage')
-                    .innerHTML = 
-                    '<p class="error">Please fill all fields</p>';
-                return;
-            }
-
-            try {
-                var response = await fetch(
-                    API + '/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userName: email,
-                        password: password
-                    })
-                });
-
-                var data = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('role', data.role);
-                    localStorage.setItem('username', data.username);
-                    localStorage.setItem('fullName', data.fullName);
-                    localStorage.setItem('userID', data.userID);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    document.getElementById('loginMessage')
-                        .innerHTML = 
-                        '<p class="error">' + 
-                        (data.message || 'Login failed') + 
-                        '</p>';
-                }
-            } catch(e) {
-                document.getElementById('loginMessage')
-                    .innerHTML = 
-                    '<p class="error">Connection error</p>';
-            }
-        }
-
-        async function register() {
-            var name = document
-                .getElementById('regName').value;
-            var email = document
-                .getElementById('regEmail').value;
-            var phone = document
-                .getElementById('regPhone').value;
-            var password = document
-                .getElementById('regPassword').value;
-
-            if (!name || !email || !password) {
-                document.getElementById('registerMessage')
-                    .innerHTML = 
-                    '<p class="error">Please fill all fields</p>';
-                return;
-            }
-
-            try {
-                var response = await fetch(
-                    API + '/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userName: email,
-                        password: password,
-                        fullName: name,
-                        phone: phone
-                    })
-                });
-
-                var data = await response.json();
-
-                if (response.ok) {
-                    document.getElementById('registerMessage')
-                        .innerHTML = 
-                        '<p class="success">Registration successful! Please login.</p>';
-                    setTimeout(function() {
-                        switchTab('login');
-                    }, 2000);
-                } else {
-                    document.getElementById('registerMessage')
-                        .innerHTML = 
-                        '<p class="error">' + 
-                        (data.message || 'Registration failed') + 
-                        '</p>';
-                }
-            } catch(e) {
-                document.getElementById('registerMessage')
-                    .innerHTML = 
-                    '<p class="error">Connection error</p>';
-            }
-        }
-
-        // Check if already logged in
-        if (localStorage.getItem('token')) {
-            window.location.href = 'dashboard.html';
-        }
     </script>
 </body>
 </html>
