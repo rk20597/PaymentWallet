@@ -696,6 +696,7 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th>Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentHistoryTable">
@@ -844,6 +845,31 @@
             </table>
         </div>
     </div>
+    <div class="card">
+    <div class="card-header">
+        <h3>Pending Refund Requests</h3>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>From Wallet</th>
+                    <th>To Wallet</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="adminRefundsTable">
+                <tr>
+                    <td colspan="5" class="loading">
+                        Loading...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 
 
@@ -1259,6 +1285,40 @@
                 '</tr>';
         });
     }).catch(function() {});
+
+    apiGet('/api/payment/all')
+.then(function(payments) {
+    if (!Array.isArray(payments)) return;
+    var pending = payments.filter(function(p) {
+        return p.status === 'RefundRequested';
+    });
+    
+    var tbody = document
+        .getElementById('adminRefundsTable');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (!pending.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="loading">' +
+            'No pending refunds</td></tr>';
+        return;
+    }
+
+    pending.forEach(function(p) {
+        tbody.innerHTML += '<tr>' +
+            '<td>' + safe(p.paymentID) + '</td>' +
+            '<td>Wallet #' + safe(p.senderWalletID) + '</td>' +
+            '<td>Wallet #' + safe(p.receiverWalletID) + '</td>' +
+            '<td>₹' + (p.amount||0).toFixed(2) + '</td>' +
+            '<td><button class="btn-primary" ' +
+            'style="padding:4px 10px;font-size:12px" ' +
+            'onclick="approveRefund(' + p.paymentID + ')">' +
+            'Approve Refund</button></td>' +
+            '</tr>';
+    });
+}).catch(function() {});
+
 }
 
 
@@ -1591,6 +1651,16 @@ function loadSendMoney() {
                 '<td><span class="badge badge-active">' +
                 safe(p.status) + '</span></td>' +
                 '<td>' + safe(p.authorizedDate) + '</td>' +
+                 '<td>' +
+                (p.status === 'Completed' ? 
+                '<button class="btn-danger" ' +
+                'style="font-size:11px;padding:4px 8px" ' +
+                'onclick="requestRefund(' + p.paymentID + 
+                ',' + p.amount + ')">' +
+                'Request Refund</button>' : 
+                safe(p.status)) +
+                '</td>'
+
                 '</tr>';
         });
     });
@@ -1654,6 +1724,38 @@ function sendMoney() {
     });
 }
 
+function requestRefund(paymentId, amount) {
+    if (!confirm('Request refund of ₹' + 
+        parseFloat(amount).toFixed(2) + '?')) return;
+
+    apiPost('/api/payment/' + paymentId + 
+        '/requestrefund', {
+        amount: amount,
+        reason: 'User requested refund'
+    })
+    .then(function(data) {
+        alert(data.message || 'Refund requested');
+        loadSendMoney();
+    })
+    .catch(function() {
+        alert('Error requesting refund');
+    });
+}
+
+function approveRefund(paymentId) {
+    if (!confirm('Approve refund for Payment #' + 
+        paymentId + '?')) return;
+
+    apiPost('/api/payment/' + paymentId + 
+        '/approverefund', {})
+    .then(function(data) {
+        alert(data.message || 'Refund approved');
+        loadAdmin();
+    })
+    .catch(function() {
+        alert('Error approving refund');
+    });
+}
 
 
         function logout() {

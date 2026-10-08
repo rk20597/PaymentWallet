@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using OfficeOpenXml;
 using PaymentWallet.API.Repositories;
+using PaymentWallet.API.Services;
 using System.Text;
 using System.Threading.RateLimiting;
 using PaymentWallet.Core.Interfaces;
@@ -37,6 +38,8 @@ builder.Services.AddSingleton<IFundingMethodRepository>(
     new FundingMethodRepository(excelContext));
 builder.Services.AddSingleton<IPaymentRepository>(
     new PaymentRepository(excelContext));
+builder.Services.AddSingleton<IHyperswitchService, HyperswitchService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 
 builder.Services.AddCors(options =>

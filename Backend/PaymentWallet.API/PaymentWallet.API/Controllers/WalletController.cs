@@ -17,6 +17,8 @@ namespace PaymentWallet.API.Controllers
         private readonly ITransactionRepository _transactionRepo;
         private readonly IFundingMethodRepository _fundingRepo;
         private readonly IAccountRepository _accountRepo;
+
+        private readonly IEmailService _emailService;
         private readonly ILogger<AccountsController> _logger;
 
         public WalletController(
@@ -25,6 +27,7 @@ namespace PaymentWallet.API.Controllers
             ITransactionRepository transactionRepo,
             IFundingMethodRepository fundingRepo,
             IAccountRepository accountRepo,
+            IEmailService emailService,
             ILogger<AccountsController> logger)
         {
             _walletRepo = walletRepo;
@@ -32,6 +35,7 @@ namespace PaymentWallet.API.Controllers
             _transactionRepo = transactionRepo;
             _fundingRepo = fundingRepo;
             _accountRepo = accountRepo;
+            _emailService = emailService;
             _logger = logger;
         }
 
@@ -235,6 +239,20 @@ namespace PaymentWallet.API.Controllers
                 BalanceAfter = newBalance
             };
             await _transactionRepo.AddTransaction(transaction);
+
+            var currentUser = (await _userRepo.GetAllUsers())
+     .FirstOrDefault(u => u.UserName == username);
+            if (currentUser?.UserName != null)
+            {
+                await _emailService.SendMoneyAddedEmail(
+                    currentUser.UserName,
+                    request.Amount,
+                    wallet.Currency ?? "INR",
+                    newBalance);
+            }
+
+
+
 
             return Ok(new
             {
